@@ -7,7 +7,5 @@
 roll (a)-(b) //[a,b)范围的随机整数
 点歌(a) //点歌 a:歌名`);
 
-已加载的模块
-官推 官推相关信息获取
-提醒 设置定时提醒
-机器人 聊天功能
+# todo
+- 将kc-twitter使用的img文件夹移到.cqnode中管理 /module/dislido.kc-twitter

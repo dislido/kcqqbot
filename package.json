@@ -3,12 +3,17 @@
   "version": "0.4.0",
   "description": "no description",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dislido/kcqqbot.git"
+  },
   "scripts": {
-    "start": "node --harmony index.js",
     "lint": "eslint **/*.js",
     "lint-html": "eslint **/*.js -f html -o ./reports/lint-results.html",
     "lint-fix": "eslint --fix **/*.js",
-    "test": "node ./test/repltestserver"
+    "test": "node ./test/repltestserver",
+    "start": "pm2 start index.js --name kcqqbot",
+    "stop": "pm2 delete kcqqbot"
   },
   "author": "dislido",
   "license": "UNLICENSED",
@@ -20,7 +25,6 @@
     "log4js": "^3.0.4",
     "moment": "^2.22.2",
     "node-schedule": "^1.3.0",
-    "websocket": "^1.0.26",
     "@babel/core": "^7.0.0-beta.40",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.40",
     "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.40",
