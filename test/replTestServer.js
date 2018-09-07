@@ -1,9 +1,9 @@
 const repl = require('repl');
-const CQNode = require('../lib/robot');
+const CQNode = require('@dislido/cqnode');
 const config = require('../config');
 const WebSocketServer = require('ws').Server;
 
-const wss = new WebSocketServer({ port: 25303 });
+const wss = new WebSocketServer({ port: 25300 });
 
 const r = repl.start({ prompt: '>' });
 
@@ -26,4 +26,4 @@ wss.on('connection', (connect) => {
   tests.forEach(it => r.context.send(it));
 });
 
-console.log('start CQNode:', new CQNode(config));
+console.log('start CQNode:', CQNode.createRobot(config));
