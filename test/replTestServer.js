@@ -11,7 +11,7 @@ wss.on('connection', (connect) => {
   console.log('conn');
   r.context.send = (msg, fromGroup = '177720545', fromQQ = '100263') => connect.send(JSON.stringify({
     act: 2,
-    msg: msg.replace(/@@/g, '[CQ:at,qq=191107040]'),
+    msg: msg.replace(/@@/g, '[CQ:at,qq=1000000]'),
     fromGroup,
     fromQQ,
   }));
@@ -26,4 +26,4 @@ wss.on('connection', (connect) => {
   tests.forEach(it => r.context.send(it));
 });
 
-console.log('start CQNode:', CQNode.createRobot(config));
+console.log('start CQNode:', CQNode.createRobot({ ...config, qqid: '1000000', lemocURL: 'ws://127.0.0.1:25300' }));
