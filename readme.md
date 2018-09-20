@@ -6,3 +6,4 @@
 
 # todo
 - 将kc-twitter使用的img文件夹移到.cqnode中管理 /module/dislido.kc-twitter
+- [module/core]通过onMessage类函数是否被覆盖判断该模块支持群/私聊
