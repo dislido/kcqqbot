@@ -30,7 +30,7 @@
     "aliasName": []
   },
   {
-    "name": "初風",
+    "name": "初风",
     "birthday": "1-24",
     "year": "1939",
     "aliasName": []
@@ -78,7 +78,7 @@
     "aliasName": []
   },
   {
-    "name": "山風",
+    "name": "山风",
     "birthday": "2-21",
     "year": "1936",
     "aliasName": []
@@ -144,7 +144,7 @@
     "aliasName": []
   },
   {
-    "name": "涼風",
+    "name": "涼风",
     "birthday": "3-11",
     "year": "1937",
     "aliasName": []
@@ -168,7 +168,7 @@
     "aliasName": []
   },
   {
-    "name": "旗風",
+    "name": "旗风",
     "birthday": "3-15",
     "year": "1924",
     "aliasName": []
@@ -180,7 +180,7 @@
     "aliasName": []
   },
   {
-    "name": "舞風",
+    "name": "舞风",
     "birthday": "3-15",
     "year": "1941",
     "aliasName": []
@@ -192,7 +192,7 @@
     "aliasName": []
   },
   {
-    "name": "夕雲",
+    "name": "夕云",
     "birthday": "3-16",
     "year": "1941",
     "aliasName": []
@@ -204,7 +204,7 @@
     "aliasName": []
   },
   {
-    "name": "若葉",
+    "name": "若叶",
     "birthday": "3-18",
     "year": "1934",
     "aliasName": []
@@ -222,7 +222,7 @@
     "aliasName": []
   },
   {
-    "name": "対馬",
+    "name": "对马",
     "birthday": "3-20",
     "year": "1943",
     "aliasName": []
@@ -234,13 +234,13 @@
     "aliasName": []
   },
   {
-    "name": "羽黒",
+    "name": "羽黑",
     "birthday": "3-24",
     "year": "1928",
     "aliasName": []
   },
   {
-    "name": "雪風",
+    "name": "雪风",
     "birthday": "3-24",
     "year": "1939",
     "aliasName": []
@@ -258,7 +258,7 @@
     "aliasName": []
   },
   {
-    "name": "龍驤",
+    "name": "龙骧",
     "birthday": "4-2",
     "year": "1931",
     "aliasName": []
@@ -282,10 +282,16 @@
     "aliasName": []
   },
   {
-    "name": "鳥海",
+    "name": "鸟海",
     "birthday": "4-5",
     "year": "1931",
     "aliasName": []
+  },
+  {
+    "name": "Maestrale",
+    "birthday": "4-5",
+    "year": "1934",
+    "aliasName": ["西北风"]
   },
   {
     "name": "白露",
@@ -300,7 +306,7 @@
     "aliasName": []
   },
   {
-    "name": "大鳳",
+    "name": "大凤",
     "birthday": "4-7",
     "year": "1943",
     "aliasName": []
@@ -318,7 +324,7 @@
     "aliasName": []
   },
   {
-    "name": "浦風",
+    "name": "浦风",
     "birthday": "4-10",
     "year": "1940",
     "aliasName": []
@@ -336,7 +342,7 @@
     "aliasName": []
   },
   {
-    "name": "秋雲",
+    "name": "秋云",
     "birthday": "4-11",
     "year": "1941",
     "aliasName": []
@@ -486,7 +492,7 @@
     "aliasName": []
   },
   {
-    "name": "陸奥",
+    "name": "陆奥",
     "birthday": "5-31",
     "year": "1920",
     "aliasName": []
@@ -498,13 +504,13 @@
     "aliasName": []
   },
   {
-    "name": "祥鳳",
+    "name": "祥凤",
     "birthday": "6-1",
     "year": "1935",
     "aliasName": []
   },
   {
-    "name": "翔鶴",
+    "name": "翔鹤",
     "birthday": "6-1",
     "year": "1939",
     "aliasName": []
@@ -534,13 +540,13 @@
     "aliasName": []
   },
   {
-    "name": "愛宕",
+    "name": "爱宕",
     "birthday": "6-16",
     "year": "1930",
     "aliasName": []
   },
   {
-    "name": "響",
+    "name": "响",
     "birthday": "6-16",
     "year": "1932",
     "aliasName": []
@@ -552,19 +558,19 @@
     "aliasName": []
   },
   {
-    "name": "萩風",
+    "name": "萩风",
     "birthday": "6-18",
     "year": "1940",
     "aliasName": []
   },
   {
-    "name": "瑞鳳",
+    "name": "瑞凤",
     "birthday": "6-19",
     "year": "1936",
     "aliasName": []
   },
   {
-    "name": "磯風",
+    "name": "矶风",
     "birthday": "6-19",
     "year": "1939",
     "aliasName": []
@@ -588,13 +594,13 @@
     "aliasName": []
   },
   {
-    "name": "飛鷹",
+    "name": "飞鷹",
     "birthday": "6-24",
     "year": "1941",
     "aliasName": []
   },
   {
-    "name": "大東",
+    "name": "大东",
     "birthday": "6-24",
     "year": "1944",
     "aliasName": []
@@ -678,7 +684,7 @@
     "aliasName": []
   },
   {
-    "name": "島風",
+    "name": "岛风",
     "birthday": "7-18",
     "year": "1942",
     "aliasName": []
@@ -714,7 +720,7 @@
     "aliasName": []
   },
   {
-    "name": "山雲",
+    "name": "山云",
     "birthday": "7-24",
     "year": "1937",
     "aliasName": []
@@ -738,6 +744,12 @@
     "aliasName": []
   },
   {
+    "name": "岸波",
+    "birthday": "8-19",
+    "year": "1943",
+    "aliasName": []
+  },
+  {
     "name": "利托里奥",
     "birthday": "8-22",
     "year": "1937",
@@ -756,10 +768,22 @@
     "aliasName": []
   },
   {
+    "name": "Nelson",
+    "birthday": "9-3",
+    "year": "1925",
+    "aliasName": ["纳尔逊"]
+  },
+  {
     "name": "Jervis",
     "birthday": "9-9",
     "year": "1938",
     "aliasName": ["杰维斯", "贾维斯"]
+  },
+  {
+    "name": "Gotland",
+    "birthday": "9-14",
+    "year": "1933",
+    "aliasName": ["哥特兰"]
   },
   {
     "name": "伊19",
@@ -804,13 +828,13 @@
     "aliasName": []
   },
   {
-    "name": "神風",
+    "name": "神风",
     "birthday": "9-25",
     "year": "1922",
     "aliasName": []
   },
   {
-    "name": "青葉",
+    "name": "青叶",
     "birthday": "9-25",
     "year": "1926",
     "aliasName": []
@@ -828,19 +852,19 @@
     "aliasName": []
   },
   {
-    "name": "雲龍",
+    "name": "云龍",
     "birthday": "9-25",
     "year": "1943",
     "aliasName": []
   },
   {
-    "name": "巻雲",
+    "name": "巻云",
     "birthday": "9-26",
     "year": "1941",
     "aliasName": []
   },
   {
-    "name": "叢雲",
+    "name": "叢云",
     "birthday": "9-27",
     "year": "1928",
     "aliasName": []
@@ -894,7 +918,7 @@
     "aliasName": []
   },
   {
-    "name": "天津風",
+    "name": "天津风",
     "birthday": "10-19",
     "year": "1939",
     "aliasName": []
@@ -942,13 +966,13 @@
     "aliasName": []
   },
   {
-    "name": "松風",
+    "name": "松风",
     "birthday": "10-30",
     "year": "1923",
     "aliasName": []
   },
   {
-    "name": "江風",
+    "name": "江风",
     "birthday": "11-1",
     "year": "1936",
     "aliasName": []
@@ -960,7 +984,7 @@
     "aliasName": []
   },
   {
-    "name": "谷風",
+    "name": "谷风",
     "birthday": "11-1",
     "year": "1940",
     "aliasName": []
@@ -978,13 +1002,13 @@
     "aliasName": []
   },
   {
-    "name": "朝雲",
+    "name": "朝云",
     "birthday": "11-5",
     "year": "1937",
     "aliasName": []
   },
   {
-    "name": "巻雲",
+    "name": "巻云",
     "birthday": "11-5",
     "year": "1941",
     "aliasName": []
@@ -1014,7 +1038,7 @@
     "aliasName": []
   },
   {
-    "name": "時津風",
+    "name": "時津风",
     "birthday": "11-10",
     "year": "1939",
     "aliasName": []
@@ -1026,7 +1050,7 @@
     "aliasName": []
   },
   {
-    "name": "鳳翔",
+    "name": "凤翔",
     "birthday": "11-13",
     "year": "1921",
     "aliasName": []
@@ -1050,13 +1074,13 @@
     "aliasName": []
   },
   {
-    "name": "大鯨/龍鳳",
+    "name": "大鯨/龍凤",
     "birthday": "11-16",
     "year": "1933",
     "aliasName": []
   },
   {
-    "name": "飛龍",
+    "name": "飞龍",
     "birthday": "11-16",
     "year": "1937",
     "aliasName": []
@@ -1122,13 +1146,13 @@
     "aliasName": []
   },
   {
-    "name": "磯波",
+    "name": "矶波",
     "birthday": "11-24",
     "year": "1927",
     "aliasName": []
   },
   {
-    "name": "浜風",
+    "name": "浜风",
     "birthday": "11-25",
     "year": "1940",
     "aliasName": []
@@ -1140,13 +1164,13 @@
     "aliasName": []
   },
   {
-    "name": "海風",
+    "name": "海风",
     "birthday": "11-27",
     "year": "1936",
     "aliasName": []
   },
   {
-    "name": "瑞鶴",
+    "name": "瑞鹤",
     "birthday": "11-27",
     "year": "1939",
     "aliasName": []
@@ -1206,7 +1230,7 @@
     "aliasName": []
   },
   {
-    "name": "朝風",
+    "name": "朝风",
     "birthday": "12-8",
     "year": "1922",
     "aliasName": []
@@ -1218,10 +1242,10 @@
     "aliasName": []
   },
   {
-    "name": "齐柏林伯爵",
+    "name": "Graf Zeppelin",
     "birthday": "12-8",
     "year": "1938",
-    "aliasName": []
+    "aliasName": ["齐柏林伯爵", "齐柏林"]
   },
   {
     "name": "占守",
@@ -1242,13 +1266,19 @@
     "aliasName": []
   },
   {
+    "name": "神鹰",
+    "birthday": "12-14",
+    "year": "1934",
+    "aliasName": []
+  },
+  {
     "name": "朝潮",
     "birthday": "12-16",
     "year": "1936",
     "aliasName": []
   },
   {
-    "name": "春風",
+    "name": "春风",
     "birthday": "12-18",
     "year": "1922",
     "aliasName": []
