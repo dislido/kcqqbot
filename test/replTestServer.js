@@ -26,4 +26,9 @@ wss.on('connection', (connect) => {
   tests.forEach(it => r.context.send(it));
 });
 
-console.log('start CQNode:', CQNode.createRobot({ ...config, qqid: '1000000', lemocURL: 'ws://127.0.0.1:25300' }));
+console.log('start CQNode:', CQNode.createRobot({
+  ...config,
+  qqid: '1000000',
+  admin: ['100263'],
+  lemocURL: 'ws://127.0.0.1:25300',
+}));
