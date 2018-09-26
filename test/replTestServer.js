@@ -21,7 +21,7 @@ wss.on('connection', (connect) => {
   });
   const tests = [
     '@@ test something',
-    '@@ ~$listcmd',
+    '@@ ~$exec vol',
   ];
   tests.forEach(it => r.context.send(it));
 });
