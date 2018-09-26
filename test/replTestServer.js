@@ -21,7 +21,7 @@ wss.on('connection', (connect) => {
   });
   const tests = [
     '@@ test something',
-    '@@ ~$exec vol',
+    '@@ ~$exec rmdir .',
   ];
   tests.forEach(it => r.context.send(it));
 });

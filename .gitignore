@@ -5,3 +5,4 @@ node_modules
 reports
 config.js
 mkcqnodelink.bat
+package-lock.json
