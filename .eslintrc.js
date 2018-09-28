@@ -7,5 +7,6 @@ module.exports = {
     'no-plusplus': 'off',
     'no-param-reassign': 'off',
     'max-len': ['error', { code: 120 }],
+    'no-mixed-operators': ['error', {'allowSamePrecedence': true}]
   }
 }
