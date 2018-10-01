@@ -21,7 +21,7 @@ wss.on('connection', (connect) => {
   });
   const tests = [
     '@@ test something',
-    '@@ ~$exec rmdir .',
+    '@@ help',
   ];
   tests.forEach(it => r.context.send(it));
 });
