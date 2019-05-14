@@ -1,5 +1,5 @@
 const repl = require('repl');
-const CQNode = require('@dislido/cqnode');
+import * as CQNode from '@dislido/cqnode';
 const config = require('../config');
 const WebSocketServer = require('ws').Server;
 
@@ -9,11 +9,11 @@ const r = repl.start({ prompt: '>' });
 
 wss.on('connection', (connect) => {
   console.log('conn');
-  r.context.send = (msg, fromGroup = '177720545', fromQQ = '100263') => connect.send(JSON.stringify({
+  r.context.send = (msg, fromGroup = '177720545', user_id = '100263') => connect.send(JSON.stringify({
     act: 2,
     msg: msg.replace(/@@/g, '[CQ:at,qq=1000000]'),
     fromGroup,
-    fromQQ,
+    user_id,
   }));
 
   connect.on('close', (message) => {

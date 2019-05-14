@@ -6,3 +6,4 @@ reports
 config.js
 mkcqnodelink.bat
 package-lock.json
+dist
