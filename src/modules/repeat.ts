@@ -29,7 +29,13 @@ export default module.exports = class Repeat extends CQNode.Module {
   }
 
   onGroupMessage(data: CQNode.CQEvent.GroupMessageEvent, resp: CQNode.CQNodeEventResponse.GroupMessageResponse) {
-    if (data.atme) return false;
+    if (data.atme) {
+      if (data.msg.startsWith('复读 ')) {
+        resp.reply(data.msg.slice(3)).at(false);
+        return true;
+      }
+      return false;
+    }
     if (!this.record[data.groupId]) {
       this.record[data.groupId] = {
         msg: data.msg,

@@ -9,12 +9,17 @@ interface UseData {
   use: TimeDataName;
 }
 
+function fixTimeZone(hour: number, zone: number) {
+  return (hour + zone) % 24;
+}
+
 module.exports = class TimeCall extends CQNode.Module {
   jobMap = new Map<string, schedule.Job>();
-  hour = (new Date()).getHours();
+  hour: number;
+  timeZone: number;
   timedata = timedata;
   use: TimeDataName | UseData[];
-  constructor({ use }: { use: TimeDataName | UseData[] }) {
+  constructor({ timeZone = 8, use }: { timeZone: number, use: TimeDataName | UseData[] }) {
     super({
       name: '报时',
       description: '报时功能',
@@ -22,6 +27,8 @@ module.exports = class TimeCall extends CQNode.Module {
       packageName: '@dislido/cqnode-module-timecall',
     });
     this.use = use;
+    this.timeZone = timeZone;
+    this.hour = ((new Date()).getUTCHours() + this.timeZone) % 24;
   }
 
   onRun() {
@@ -36,7 +43,7 @@ module.exports = class TimeCall extends CQNode.Module {
         });
       }
     }));
-    this.jobMap.set('exercise', schedule.scheduleJob('30 1,13 * * *', () => {
+    this.jobMap.set('exercise', schedule.scheduleJob(`30 ${fixTimeZone(17, this.timeZone)},${fixTimeZone(5, this.timeZone)} * * *`, () => {
       cqnode.api.groupRadio('半小时后演习刷新');
     }));
   }

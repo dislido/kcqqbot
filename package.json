@@ -13,7 +13,8 @@
     "lint-fix": "eslint --fix **/*.js",
     "test": "node ./test/repltestserver",
     "start": "pm2 start index.js --name kcqqbot",
-    "stop": "pm2 delete kcqqbot"
+    "stop": "pm2 delete kcqqbot",
+    "restart": "pm2 restart kcqqbot"
   },
   "author": "dislido",
   "license": "UNLICENSED",

@@ -49,7 +49,7 @@ export default module.exports = class ChatHistory extends CQNode.Module {
     }
     const reclist = this.record[groupId];
     reclist.push(
-      `${username || userId}: ${msg}`.replace(/\[CQ:image,file=([^\]]*)\]/g,
+      `${username || userId}: ${msg}`.replace(/\[CQ:image,file=([^\],]*),?.*\]/g,
       (_, imgId) => `[图片${this.getImageUrl(imgId)}]`),
     );
     if (reclist.length > this.maxLength) {

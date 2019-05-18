@@ -4,7 +4,7 @@ import * as CQNode from '@dislido/cqnode';
 import babelConfig from './babel-config';
 
 function decodeHtml(str: string) {
-  const s = str.replace(/&#[\dA-F]{2,4};/g, hex => String.fromCharCode(parseInt(hex.slice(2, -1), 16)));
+  const s = str.replace(/&#[\d]{2,4};/g, hex => String.fromCharCode(parseInt(hex.slice(2, -1), 10)));
   return s.replace(/&amp;/g, '&');
 }
 

@@ -4,17 +4,26 @@ import * as CQNode from '@dislido/cqnode';
 import commands from './commands';
 import { Command } from './admin-command';
 
+enum Auth {
+  Default = 0,
+  Admin = 1,
+  GroupAdmin = 2,
+}
+interface AuthData {
+  admin: number[];
+  [group: number]: {
+    [qqid: number]: Auth;
+  }
+}
 function isGroupMessage(msgData: CQNode.CQEvent.MessageEvent): msgData is CQNode.CQEvent.GroupMessageEvent {
   if (msgData.messageType === 'group') return true;
   return false;
 }
 class Admin extends CQNode.Module {
-  /** @todo */
   commands: {
     [cmdName: string]: Command;
   };
-  /** @todo */
-  authData: any;
+  authData: AuthData;
   filepath: string;
   constructor(public prompt = '~$') {
     super({
@@ -25,7 +34,7 @@ class Admin extends CQNode.Module {
     });
 
     this.commands = commands;
-    this.authData = {};
+    this.authData = { admin: [] };
   }
 
   onRun() {
@@ -48,6 +57,12 @@ class Admin extends CQNode.Module {
     return true;
   }
 
+  /**
+   * 处理命令
+   * @param cmd 命令内容
+   * @param msgData 
+   * @param resp 
+   */
   dispatchCmd(cmd: string, msgData: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
     const cmdName = cmd.split(' ', 1)[0];
     const cmdStr = cmd.substring(cmdName.length).trim();
@@ -62,7 +77,11 @@ class Admin extends CQNode.Module {
     }
     this.commands[cmdName].exec.call(this, cmdStr, { msgData, resp, bindingCQNode: this.bindingCQNode });
   }
-
+  /**
+   * 获取用户权限
+   * @param qqid 用户qq号
+   * @param group 群号
+   */
   getUserAuth(qqid: number, group?: number) {
     if (this.authData.admin.includes(qqid)) return 100;
     if (!group) return 0;
@@ -74,17 +93,24 @@ class Admin extends CQNode.Module {
     return this.authData[group][qqid] || 0;
   }
 
-  setUserAuth(qqid: number, group: number, auth: number) {
+  setUserAuth(qqid: number, auth: number, group: number) {
     if (!this.authData[group]) this.authData[group] = {};
     this.authData[group][qqid] = auth;
+    this.saveUserAuth();
   }
 
+  /**
+   * 保存用户权限信息文件
+   */
   saveUserAuth() {
     this.filepath = this.getFilepath();
     const authDataPath = path.resolve(this.filepath, 'auth.json');
     fs.writeFileSync(authDataPath, JSON.stringify(this.authData, null, 2));
   }
 
+  /**
+   * 加载用户权限信息文件
+   */
   loadUserAuth() {
     this.filepath = this.getFilepath();
     const authDataPath = path.resolve(this.filepath, 'auth.json');
