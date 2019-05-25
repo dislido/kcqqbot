@@ -13,7 +13,7 @@ roll (a)-(b) 返回[a-b]之间的随机整数
     });
   }
 
-  onMessage(data: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  onMessage(data: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!data.atme) return false;
     if (/ROLL *(\d+)-(\d+)/i.test(data.msg)) {
       const [, l, r] = /ROLL *(\d+)-(\d+)/i.exec(data.msg) as RegExpExecArray;

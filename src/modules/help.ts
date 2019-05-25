@@ -14,7 +14,7 @@ export default module.exports = class Help extends CQNode.Module {
     return this.bindingCQNode.modules.find(m => m.inf.name === modName);
   }
 
-  onMessage({ atme, msg }: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
     if (['-help', 'help', '帮助'].includes(msg)) {
       resp.send(`-help / help / 帮助 // 显示此帮助信息

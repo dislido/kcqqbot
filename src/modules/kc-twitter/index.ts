@@ -25,7 +25,7 @@ module.exports = class KCTwitter extends CQNode.Module {
     });
   }
 
-  async onMessage({ atme, msg }: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  async onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
     if (/^\s*官推/.test(msg)) {
       return resp.reply(await this.request(msg));

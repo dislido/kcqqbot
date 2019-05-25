@@ -35,7 +35,7 @@ export default module.exports = class ChatHistory extends CQNode.Module {
       return imgId;
     }
   }
-  onGroupMessage({ atme, msg, userId, groupId, username }: CQNode.CQEvent.GroupMessageEvent, resp: CQNode.CQNodeEventResponse.GroupMessageResponse) {
+  onGroupMessage({ atme, msg, userId, groupId, username }: CQNode.CQEvent.GroupMessage, resp: CQNode.CQResponse.GroupMessage) {
     if (atme) {
       const cmd = /聊天记录\.(\d+)/.exec(msg);
       if (cmd && (+cmd[1] > 0)) {

@@ -42,7 +42,7 @@ export default module.exports = class KanBirthday extends CQNode.Module {
       this.bindingCQNode.api.groupRadio(`今天是${month}月${day}日，是以下舰娘的生日：\n${data.map(it => `${it.name}(${it.year})`)}`);
     });
   }
-  onMessage({ atme, msg }: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
     if (/舰娘生日\s+\S+$/.test(msg)) {
       const query = msg.slice(4).trim();

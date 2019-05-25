@@ -8,7 +8,7 @@ interface RecordType {
   }
 }
 
-function shouldRepeat(record: { msg: string; userId: number; lastRepeat?: string }, event: CQNode.CQEvent.GroupMessageEvent) {
+function shouldRepeat(record: { msg: string; userId: number; lastRepeat?: string }, event: CQNode.CQEvent.GroupMessage) {
   if (record.userId === event.userId) return false;
   if (record.msg !== event.msg) return false;
   if (record.lastRepeat === event.msg) return false;
@@ -28,7 +28,7 @@ export default module.exports = class Repeat extends CQNode.Module {
     });
   }
 
-  onGroupMessage(data: CQNode.CQEvent.GroupMessageEvent, resp: CQNode.CQNodeEventResponse.GroupMessageResponse) {
+  onGroupMessage(data: CQNode.CQEvent.GroupMessage, resp: CQNode.CQResponse.GroupMessage) {
     if (data.atme) {
       if (data.msg.startsWith('复读 ')) {
         resp.reply(data.msg.slice(3)).at(false);

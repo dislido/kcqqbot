@@ -3,18 +3,16 @@ import * as querystring from 'querystring';
 import * as CQNode from '@dislido/cqnode';
 
 export default module.exports = class Tuling extends CQNode.Module {
-  apikey: string;
-  constructor({ apikey }: { apikey: string }) {
+  constructor(public apikey: string) {
     super({
       name: '图灵机器人',
       description: '聊天功能',
       help: '由图灵机器人API提供',
       packageName: '@dislido/cqnode-module-tuling',
     });
-    this.apikey = apikey;
   }
 
-  async onMessage(data: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  async onMessage(data: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!data.atme) return false;
     const reply: string = await new Promise(resolve => http.get(
       `http://www.tuling123.com/openapi/api?key=${this.apikey}&info=${querystring.escape(data.msg)}`,

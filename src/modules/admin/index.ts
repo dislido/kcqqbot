@@ -15,7 +15,7 @@ interface AuthData {
     [qqid: number]: Auth;
   }
 }
-function isGroupMessage(msgData: CQNode.CQEvent.MessageEvent): msgData is CQNode.CQEvent.GroupMessageEvent {
+function isGroupMessage(msgData: CQNode.CQEvent.Message): msgData is CQNode.CQEvent.GroupMessage {
   if (msgData.messageType === 'group') return true;
   return false;
 }
@@ -41,16 +41,16 @@ class Admin extends CQNode.Module {
     this.loadUserAuth();
   }
 
-  onGroupMessage(msgData: CQNode.CQEvent.GroupMessageEvent, resp: CQNode.CQNodeEventResponse.GroupMessageResponse) {
+  onGroupMessage(msgData: CQNode.CQEvent.GroupMessage, resp: CQNode.CQResponse.GroupMessage) {
     if (!msgData.atme) return false;
     return this.requestAdmin(msgData, resp);
   }
 
-  onPrivateMessage(msgData: CQNode.CQEvent.PrivateMessageEvent, resp: CQNode.CQNodeEventResponse.PrivateMessageResponse) {
+  onPrivateMessage(msgData: CQNode.CQEvent.PrivateMessage, resp: CQNode.CQResponse.PrivateMessage) {
     return this.requestAdmin(msgData, resp);
   }
 
-  requestAdmin(msgData: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  requestAdmin(msgData: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!msgData.msg.startsWith(this.prompt)) return false;
     const cmd = msgData.msg.substring(this.prompt.length).trim();
     this.dispatchCmd(cmd, msgData, resp);
@@ -63,7 +63,7 @@ class Admin extends CQNode.Module {
    * @param msgData 
    * @param resp 
    */
-  dispatchCmd(cmd: string, msgData: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  dispatchCmd(cmd: string, msgData: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     const cmdName = cmd.split(' ', 1)[0];
     const cmdStr = cmd.substring(cmdName.length).trim();
     const userAuth = this.getUserAuth(msgData.userId, isGroupMessage(msgData) ? msgData.groupId : undefined);

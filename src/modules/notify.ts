@@ -26,7 +26,7 @@ export default module.exports = class Notify extends CQNode.Module {
     this.notifySet.forEach(e => e.cancel());
     this.notifySet.clear();
   }
-  onMessage({ atme, msg, userId }: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  onMessage({ atme, msg, userId }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
 
     if (this.bySecond({ msg, userId }, resp)) return true;
@@ -34,7 +34,7 @@ export default module.exports = class Notify extends CQNode.Module {
 
     return false;
   }
-  bySecond({ msg, userId }: { msg: string, userId: number }, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  bySecond({ msg, userId }: { msg: string, userId: number }, resp: CQNode.CQResponse.Message) {
     const regret = /(\d+)秒后提醒(.+)/.exec(msg);
     if (!regret) return false;
     const time = afterSecond(regret[1]);
@@ -44,7 +44,7 @@ export default module.exports = class Notify extends CQNode.Module {
     resp.send(`[CQ:at,qq=${userId}]提醒设置完毕`);
     return true;
   }
-  byDate({ msg, userId }: { msg: string, userId: number }, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  byDate({ msg, userId }: { msg: string, userId: number }, resp: CQNode.CQResponse.Message) {
     const regret = /^(.*)时提醒\s(.*)/.exec(msg);
     if (!regret) return false;
     const [, time, str] = regret;

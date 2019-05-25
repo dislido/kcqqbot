@@ -44,7 +44,7 @@ export default module.exports = class JSVM extends CQNode.Module {
     this.context.global = this.context;
     this.context.save2ctx.toString = () => 'function save2ctx() { [hidden code] }';
   }
-  onMessage({ atme, msg }: CQNode.CQEvent.MessageEvent, resp: CQNode.CQNodeEventResponse.MessageResponse) {
+  onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
     if (msg.trim().startsWith('js')) {
       resp.send(this.runCode(msg.trim().slice(2)), true);
