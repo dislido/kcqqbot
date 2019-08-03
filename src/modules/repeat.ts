@@ -1,31 +1,34 @@
-import * as CQNode from '@dislido/cqnode';
+import { Module } from '@dislido/cqnode';
 
-interface RecordType {
-  [fromGroup: string]: {
-    msg: string;
-    userId: number;
-    lastRepeat?: string;
-  }
-}
-
-function shouldRepeat(record: { msg: string; userId: number; lastRepeat?: string }, event: CQNode.CQEvent.GroupMessage) {
-  if (record.userId === event.userId) return false;
-  if (record.msg !== event.msg) return false;
-  if (record.lastRepeat === event.msg) return false;
-  return true;
-}
-
-export default module.exports = class Repeat extends CQNode.Module {
-  record: RecordType = {}
-  constructor() {
+export default module.exports = class Repeat extends Module {
+  record: {
+    [fromGroup: string]: {
+      list: {
+        msg: string;
+        userId: number;
+      }[];
+      lastRepeat?: string;
+    }
+  } = {};
+  listLength: number;
+  limit: number;
+  /**
+   * @param listLength 检查最近几条消息
+   * @param limit 出现多少条重复消息时复读
+   */
+  constructor(listLength = 2, limit = 2) {
     super({
       name: '复读',
       description: '人类的本质',
-      help: `两个人重复同一句话时发动
-  -连续两个人说出相同的话
-  -同一个人重复两次无效`,
-      packageName: '@dislido/conode-module-repeat',
+      help: `在${listLength}条消息内，有${limit}个不同的人重复同一句话时发动复读`,
+      packageName: '@dislido/cqnode-module-repeat',
     });
+    
+    listLength = Math.max(listLength, 2);
+    limit = Math.max(limit, 2);
+    if (limit > listLength) limit = listLength;
+    this.listLength = listLength;
+    this.limit = limit;
   }
 
   onGroupMessage(data: CQNode.CQEvent.GroupMessage, resp: CQNode.CQResponse.GroupMessage) {
@@ -36,19 +39,25 @@ export default module.exports = class Repeat extends CQNode.Module {
       }
       return false;
     }
+
     if (!this.record[data.groupId]) {
       this.record[data.groupId] = {
-        msg: data.msg,
-        userId: data.userId,
+        list: [],
       };
     }
+
     const record = this.record[data.groupId];
-    this.record[data.groupId] = {
-      lastRepeat: data.msg,
-      msg: data.msg,
-      userId: data.userId,
-    };
-    if (shouldRepeat(record, data)) {
+    record.list.push({ msg: data.msg, userId: data.userId });
+    if (record.list.length > this.listLength) record.list.shift();
+    if (data.msg === record.lastRepeat) return false;
+
+    const count = record.list.reduce((s, c) => {
+      if (c.msg === data.msg) s.add(c.userId);
+      return s;
+    }, new Set()).size;
+
+    if (count >= this.limit) {
+      record.lastRepeat = data.msg;
       return resp.at(false).reply(data.msg);
     }
     return false;

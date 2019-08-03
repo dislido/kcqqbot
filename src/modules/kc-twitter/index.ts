@@ -44,8 +44,8 @@ module.exports = class KCTwitter extends CQNode.Module {
       fs.mkdirSync(imgPath);
     }
     tweetSet.setFilePath(imgPath);
-    this.radio = (msg: string) => this.bindingCQNode.inf.groupList.forEach(group => {
-      this.bindingCQNode.api.sendGroupMsg(group.group_id, msg);
+    this.radio = (msg: string) => this.cqnode.inf.groupList.forEach(group => {
+      this.cqnode.api.sendGroupMsg(group.group_id, msg);
     });
     this.timer = setInterval(() => this.getTweet(), GET_TWEET_INTERVAL);
     this.getTweet();

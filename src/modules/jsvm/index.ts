@@ -3,11 +3,6 @@ import * as babel from '@babel/core';
 import * as CQNode from '@dislido/cqnode';
 import babelConfig from './babel-config';
 
-function decodeHtml(str: string) {
-  const s = str.replace(/&#[\d]{2,4};/g, hex => String.fromCharCode(parseInt(hex.slice(2, -1), 10)));
-  return s.replace(/&amp;/g, '&');
-}
-
 export default module.exports = class JSVM extends CQNode.Module {
   context: {
     global?: any;
@@ -46,18 +41,21 @@ export default module.exports = class JSVM extends CQNode.Module {
   }
   onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
-    if (msg.trim().startsWith('js')) {
-      resp.send(this.runCode(msg.trim().slice(2)), true);
+    if (msg.startsWith('js ')) {
+      const firstLine = msg.split('\n', 1)[0];
+      const params = firstLine.slice(2).trim().split(/\s+/);
+      const jsCode = msg.slice(firstLine.length);
+      resp.send(this.runCode(jsCode, params), true);
       return true;
     }
     return false;
   }
-  runCode(js: string) {
+  runCode(js: string, params: string[] = []) {
     let err;
     let result = '';
     let extra = '';
     try {
-      const transformResult = babel.transformSync(decodeHtml(js), babelConfig);
+      const transformResult = babel.transformSync(js, babelConfig);
       const code = transformResult ? transformResult.code : null;
       const ctxGlobal = {
         ...this.context,

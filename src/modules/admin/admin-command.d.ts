@@ -1,8 +1,8 @@
 import Admin from './index';
-import { CQEvent, CQResponse, CQNodeRobot } from '@dislido/cqnode';
+import { CQEvent, CQResponse, Robot } from '@dislido/cqnode';
 
 declare interface Command {
-  exec(this: Admin, cmd: string, data: { msgData: CQEvent.Message, resp: CQResponse.Message, bindingCQNode: CQNodeRobot }): void | Promise<void>;
+  exec(this: Admin, cmd: string, data: { msgData: CQEvent.Message, resp: CQResponse.Message, cqnode: Robot }): void | Promise<void>;
   auth: number;
   description: string;
 }

@@ -75,7 +75,7 @@ class Admin extends CQNode.Module {
       resp.send(`权限不足(${userAuth} - ${this.commands[cmdName].auth}), 使用${this.prompt}listcmd命令查看所有可用命令`);
       return;
     }
-    this.commands[cmdName].exec.call(this, cmdStr, { msgData, resp, bindingCQNode: this.bindingCQNode });
+    this.commands[cmdName].exec.call(this, cmdStr, { msgData, resp, cqnode: this.cqnode });
   }
   /**
    * 获取用户权限
@@ -114,7 +114,7 @@ class Admin extends CQNode.Module {
   loadUserAuth() {
     this.filepath = this.getFilepath();
     const authDataPath = path.resolve(this.filepath, 'auth.json');
-    const admin = this.bindingCQNode.config.admin;
+    const admin = this.cqnode.config.admin;
     if (fs.existsSync(authDataPath)) {
       this.authData = JSON.parse(fs.readFileSync(authDataPath).toString());
       this.authData.admin = admin;

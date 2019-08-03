@@ -26,8 +26,7 @@ export default module.exports = class Tuling extends CQNode.Module {
         });
       },
     ).on('error', (e) => {
-      console.error(`error: problem with request: ${e}`);
-      resolve(`听不懂不知道0v0`);
+      console.error(`[error]CQNode Tuling Error: ${e}`);
     }));
     return resp.reply(reply);
   }

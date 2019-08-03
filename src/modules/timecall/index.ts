@@ -32,7 +32,7 @@ module.exports = class TimeCall extends CQNode.Module {
   }
 
   onRun() {
-    const cqnode = this.bindingCQNode;
+    const cqnode = this.cqnode;
     this.jobMap.set('timecall', schedule.scheduleJob('0 0 * * * *', () => {
       if (typeof this.use === 'string') {
         cqnode.api.groupRadio(this.timedata[this.use][(++this.hour) % 24]);
