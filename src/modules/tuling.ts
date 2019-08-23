@@ -17,11 +17,13 @@ export default module.exports = class Tuling extends CQNode.Module {
     const reply: string = await new Promise(resolve => http.get(
       `http://www.tuling123.com/openapi/api?key=${this.apikey}&info=${querystring.escape(data.msg)}`,
       (res) => {
-        res.setEncoding('utf8').on('data', (chunk) => {
+        res
+        .setEncoding('utf8')
+        .on('data', (chunk) => {
           try {
             resolve(`${JSON.parse(chunk).text}`);
           } catch (e) {
-            console.error('CQNode Module Error: tuling error: ', e);
+            console.error('CQNode Module Error: tuling error: ', e, chunk);
           }
         });
       },

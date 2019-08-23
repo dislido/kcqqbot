@@ -3,7 +3,7 @@ import { Command } from "../admin-command";
 export default {
   exec(_, { msgData, resp }) {
     const userAuth = this.getUserAuth(msgData.userId);
-    resp.send(`~$listcmd:\n你的权限是${userAuth},可以使用的指令:\n${
+    resp.reply(`~$listcmd:\n你的权限是${userAuth},可以使用的指令:\n${
       Object.keys(this.commands)
         .filter(cmdName => this.commands[cmdName].auth <= userAuth)
         .join('\n')

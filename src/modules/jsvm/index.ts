@@ -16,7 +16,7 @@ export default module.exports = class JSVM extends CQNode.Module {
       description: '运行js代码',
       help: `js (code)
   code: js代码
-  可以在console.log中输出信息
+  在console.log中输出的信息会添加到回复中
   代码运行时间不能超过1s
   支持es6+和stage 2语法`,
       packageName: '@dislido/cqnode-module-jsvm',
@@ -45,8 +45,7 @@ export default module.exports = class JSVM extends CQNode.Module {
       const firstLine = msg.split('\n', 1)[0];
       const params = firstLine.slice(2).trim().split(/\s+/);
       const jsCode = msg.slice(firstLine.length);
-      resp.send(this.runCode(jsCode, params), true);
-      return true;
+      return resp.reply(this.runCode(jsCode, params), true);
     }
     return false;
   }
@@ -80,10 +79,6 @@ export default module.exports = class JSVM extends CQNode.Module {
     if (result.length > 300) {
       result = `输出内容过长(限制300个字符)，超出部分已省略：
   ${result.slice(0, 300)}...`;
-    }
-    if (result.split('\n').length > 10) {
-      result = `输出行数过多，已转义换行符为\\n：
-  ${result.split('\n').join('\\n')}`;
     }
     return `js运行结果：
   ${result}${extra}`;

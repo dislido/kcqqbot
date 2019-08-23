@@ -35,7 +35,9 @@ module.exports = class TimeCall extends CQNode.Module {
     const cqnode = this.cqnode;
     this.jobMap.set('timecall', schedule.scheduleJob('0 0 * * * *', () => {
       if (typeof this.use === 'string') {
-        cqnode.api.groupRadio(this.timedata[this.use][(++this.hour) % 24]);
+        cqnode.inf.groupList.forEach(group => {
+          cqnode.api.sendGroupMsg(group.group_id, this.timedata[this.use as TimeDataName][(++this.hour) % 24]);
+        })
       } else {
         ++this.hour;
         this.use.forEach(({ group, use }) => {
@@ -44,7 +46,9 @@ module.exports = class TimeCall extends CQNode.Module {
       }
     }));
     this.jobMap.set('exercise', schedule.scheduleJob(`30 ${fixTimeZone(17, this.timeZone)},${fixTimeZone(5, this.timeZone)} * * *`, () => {
-      cqnode.api.groupRadio('半小时后演习刷新');
+      cqnode.inf.groupList.forEach(group => {
+        cqnode.api.sendGroupMsg(group.group_id, '半小时后演习刷新');
+      });
     }));
   }
 

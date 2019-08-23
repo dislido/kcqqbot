@@ -68,11 +68,11 @@ class Admin extends CQNode.Module {
     const cmdStr = cmd.substring(cmdName.length).trim();
     const userAuth = this.getUserAuth(msgData.userId, isGroupMessage(msgData) ? msgData.groupId : undefined);
     if (!this.commands[cmdName]) {
-      resp.send(`无此命令, 使用${this.prompt}listcmd命令查看所有可用命令`);
+      resp.reply(`无此命令, 使用${this.prompt}listcmd命令查看所有可用命令`);
       return;
     }
     if (this.commands[cmdName].auth > userAuth) {
-      resp.send(`权限不足(${userAuth} - ${this.commands[cmdName].auth}), 使用${this.prompt}listcmd命令查看所有可用命令`);
+      resp.reply(`权限不足(${userAuth} - ${this.commands[cmdName].auth}), 使用${this.prompt}listcmd命令查看所有可用命令`);
       return;
     }
     this.commands[cmdName].exec.call(this, cmdStr, { msgData, resp, cqnode: this.cqnode });

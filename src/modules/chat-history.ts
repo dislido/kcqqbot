@@ -39,8 +39,8 @@ export default module.exports = class ChatHistory extends CQNode.Module {
     if (atme) {
       const cmd = /聊天记录\.(\d+)/.exec(msg);
       if (cmd && (+cmd[1] > 0)) {
-        if (+cmd[1] >= this.maxLength) resp.send(this.record[groupId].join('\n'));
-        else resp.send(this.record[groupId].slice(-cmd[1]).join('\n'));
+        if (+cmd[1] >= this.maxLength) resp.reply(this.record[groupId].join('\n'));
+        else resp.reply(this.record[groupId].slice(-cmd[1]).join('\n'));
         return true;
       }
     }

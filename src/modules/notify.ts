@@ -26,36 +26,36 @@ export default module.exports = class Notify extends CQNode.Module {
     this.notifySet.forEach(e => e.cancel());
     this.notifySet.clear();
   }
-  onMessage({ atme, msg, userId }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
+  onGroupMessage({ atme, msg, userId, groupId }: CQNode.CQEvent.GroupMessage, resp: CQNode.CQResponse.GroupMessage) {
     if (!atme) return false;
 
-    if (this.bySecond({ msg, userId }, resp)) return true;
-    if (this.byDate({ msg, userId }, resp)) return true;
+    if (this.bySecond({ msg, userId, groupId }, resp)) return true;
+    if (this.byDate({ msg, userId, groupId }, resp)) return true;
 
     return false;
   }
-  bySecond({ msg, userId }: { msg: string, userId: number }, resp: CQNode.CQResponse.Message) {
+  bySecond({ msg, userId, groupId }: { msg: string, userId: number, groupId: number }, resp: CQNode.CQResponse.GroupMessage) {
     const regret = /(\d+)秒后提醒(.+)/.exec(msg);
     if (!regret) return false;
     const time = afterSecond(regret[1]);
     const str = regret[2];
-    this.addNotify(time, () => resp.send(`[CQ:at,qq=${userId}]设置的提醒：
+    this.addNotify(time, () => this.cqnode.api.sendGroupMsg(groupId, `[CQ:at,qq=${userId}]设置的提醒：
   ${str}`));
-    resp.send(`[CQ:at,qq=${userId}]提醒设置完毕`);
+    this.cqnode.api.sendGroupMsg(groupId, `[CQ:at,qq=${userId}]提醒设置完毕`);
     return true;
   }
-  byDate({ msg, userId }: { msg: string, userId: number }, resp: CQNode.CQResponse.Message) {
+  byDate({ msg, userId, groupId }: { msg: string, userId: number, groupId: number }, resp: CQNode.CQResponse.GroupMessage) {
     const regret = /^(.*)时提醒\s(.*)/.exec(msg);
     if (!regret) return false;
     const [, time, str] = regret;
     const totime = new Date(time);
     if (totime.toString() === 'Invalid Date') {
-      resp.send(`[CQ:at,qq=${userId}]日期格式错误`);
+      this.cqnode.api.sendGroupMsg(groupId, `[CQ:at,qq=${userId}]日期格式错误`);
       return true;
     }
-    this.addNotify(totime, () => resp.send(`[CQ:at,qq=${userId}]设置的提醒：
+    this.addNotify(totime, () => this.cqnode.api.sendGroupMsg(groupId, `[CQ:at,qq=${userId}]设置的提醒：
   ${str}`));
-    resp.send(`[CQ:at,qq=${userId}]提醒设置完毕`);
+    this.cqnode.api.sendGroupMsg(groupId, `[CQ:at,qq=${userId}]提醒设置完毕`);
     return true;
   }
   addNotify(time: Date, task: () => any) {

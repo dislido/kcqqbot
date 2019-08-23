@@ -39,7 +39,9 @@ export default module.exports = class KanBirthday extends CQNode.Module {
       const day = date.getDate();
       const data = birthdayData.filter(it => it.birthday === `${month}-${day}`);
       if (!data.length) return;
-      this.cqnode.api.groupRadio(`今天是${month}月${day}日，是以下舰娘的生日：\n${data.map(it => `${it.name}(${it.year})`)}`);
+      this.cqnode.inf.groupList.forEach(group => {
+        this.cqnode.api.sendGroupMsg(group.group_id, `今天是${month}月${day}日，是以下舰娘的生日：\n${data.map(it => `${it.name}(${it.year})`)}`);
+      })
     });
   }
   onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
@@ -52,21 +54,17 @@ export default module.exports = class KanBirthday extends CQNode.Module {
           .filter(it => it.birthday === query)
           .map(it => `${it.name}(${it.year})`);
         if (!result.length) {
-          resp.send(`没有在${query}出生的舰娘`);
-          return true;
+          return resp.reply(`没有在${query}出生的舰娘`);
         }
-        resp.send(`在${query}出生的舰娘有：\n${result.join('\n')}`);
-        return true;
+        return resp.reply(`在${query}出生的舰娘有：\n${result.join('\n')}`);
       }
       const result = birthdayData
         .filter(it => it.name.includes(query) || it.aliasName.find(name => name.includes(query)))
         .map(it => `${it.name}:${it.year}-${it.birthday}`);
       if (!result.length) {
-        resp.send('没有找到该舰娘\n a.游戏未实装\n b.插件数据未更新\n c.名称错误，尝试改变繁简体或只输入一个字来查询');
-        return true;
+        return resp.reply('没有找到该舰娘\n a.游戏未实装\n b.插件数据未更新\n c.名称错误，尝试改变繁简体或只输入一个字来查询');
       }
-      resp.send(`查询'${query}'生日结果：\n${result.join('\n')}`);
-      return true;
+      return resp.reply(`查询'${query}'生日结果：\n${result.join('\n')}`);
     }
     return false;
   }
