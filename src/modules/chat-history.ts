@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import * as CQNode from '@dislido/cqnode';
 
 export default module.exports = class ChatHistory extends CQNode.Module {
@@ -20,37 +18,31 @@ export default module.exports = class ChatHistory extends CQNode.Module {
     this.record = {};
   }
   /**
-   * 通过图片编号获取图片地址url
+   * 通过cqcode获取图片地址url
    * @deprecated 酷Q将在未来移除此功能
-   * @param imgId 图片编号
+   * @param cqcode
    * @returns 图片url地址
    */
-  getImageUrl(imgId: string) {
-    if (!this.imgPath) return imgId;
-    try {
-      const imgFile = fs.readFileSync(path.resolve(this.imgPath, `${imgId}.cqimg`));
-      return /url=(\S+)/.exec(imgFile.toString())![1];
-    } catch (e) {
-      console.error(e);
-      return imgId;
-    }
+  getImageUrl(cqcode: string) {
+    const cqcodeData = CQNode.util.CQCode.parseString(cqcode);
+    if (!cqcodeData) return cqcode;
+    return `[图片${cqcodeData.data.url || cqcodeData.data.file}]`;
   }
-  onGroupMessage({ atme, msg, userId, groupId, username }: CQNode.CQEvent.GroupMessage, resp: CQNode.CQResponse.GroupMessage) {
-    if (atme) {
-      const cmd = /聊天记录\.(\d+)/.exec(msg);
+  onGroupMessage(data: CQNode.CQEvent.GroupMessage, resp: CQNode.CQResponse.GroupMessage) {
+    if (data.atme) {
+      const cmd = /聊天记录\.(\d+)/.exec(data.msg);
       if (cmd && (+cmd[1] > 0)) {
-        if (+cmd[1] >= this.maxLength) resp.reply(this.record[groupId].join('\n'));
-        else resp.reply(this.record[groupId].slice(-cmd[1]).join('\n'));
-        return true;
+        if (+cmd[1] >= this.maxLength) return resp.reply(this.record[data.groupId].join('\n'));
+        return resp.reply(this.record[data.groupId].slice(-cmd[1]).join('\n'));
       }
     }
-    if (!this.record[groupId]) {
-      this.record[groupId] = [];
+    if (!this.record[data.groupId]) {
+      this.record[data.groupId] = [];
     }
-    const reclist = this.record[groupId];
+    const reclist = this.record[data.groupId];
     reclist.push(
-      `${username || userId}: ${msg}`.replace(/\[CQ:image,file=([^\],]*),?.*\]/g,
-      (_, imgId) => `[图片${this.getImageUrl(imgId)}]`),
+      `${data.username || data.userId}: ${data.msg}`.replace(/\[CQ:image,.*\]/g,
+      (cqcode) => this.getImageUrl(cqcode)),
     );
     if (reclist.length > this.maxLength) {
       reclist.shift();
