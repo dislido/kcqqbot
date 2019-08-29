@@ -228,6 +228,12 @@
     "aliasName": []
   },
   {
+    "name": "科罗拉多",
+    "birthday": "3-22",
+    "year": "1921",
+    "aliasName": ["Colorado"]
+  },
+  {
     "name": "那珂",
     "birthday": "3-24",
     "year": "1925",
@@ -330,6 +336,12 @@
     "aliasName": []
   },
   {
+    "name": "八丈",
+    "birthday": "4-10",
+    "year": "1940",
+    "aliasName": []
+  },
+  {
     "name": "浦风",
     "birthday": "4-10",
     "year": "1940",
@@ -402,6 +414,12 @@
     "aliasName": []
   },
   {
+    "name": "加里波第",
+    "birthday": "4-22",
+    "year": "1936",
+    "aliasName": ["G.Garibaldi"]
+  },
+  {
     "name": "嵐",
     "birthday": "4-22",
     "year": "1940",
@@ -430,6 +448,12 @@
     "birthday": "4-28",
     "year": "1927",
     "aliasName": []
+  },
+  {
+    "name": "弗莱彻",
+    "birthday": "5-2",
+    "year": "1942",
+    "aliasName": ["Fletcher"]
   },
   {
     "name": "国後",
@@ -790,6 +814,12 @@
     "birthday": "9-14",
     "year": "1933",
     "aliasName": ["哥特兰"]
+  },
+  {
+    "name": "石垣",
+    "birthday": "9-14",
+    "year": "1940",
+    "aliasName": []
   },
   {
     "name": "伊19",
