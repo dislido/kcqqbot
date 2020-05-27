@@ -24,7 +24,7 @@ export default module.exports = class ChatHistory extends CQNode.Module {
    * @returns 图片url地址
    */
   getImageUrl(cqcode: string) {
-    const cqcodeData = CQNode.util.CQCode.parseString(cqcode);
+    const cqcodeData = CQNode.util.CQCode.parseCQCodeString(cqcode);
     if (!cqcodeData) return cqcode;
     return `[图片${cqcodeData.data.url || cqcodeData.data.file}]`;
   }
