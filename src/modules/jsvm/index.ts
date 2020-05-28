@@ -14,7 +14,11 @@ export default module.exports = class JSVM extends CQNode.Module {
     super({
       name: 'js虚拟机',
       description: '运行js代码',
-      help: `js (code)
+      help: `
+  ------
+  js
+  (code)
+  ------
   code: js代码
   在console.log中输出的信息会添加到回复中
   代码运行时间不能超过1s
@@ -41,7 +45,7 @@ export default module.exports = class JSVM extends CQNode.Module {
   }
   onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
-    if (msg.startsWith('js ')) {
+    if (/js\s/.test(msg)) {
       const firstLine = msg.split('\n', 1)[0];
       const params = firstLine.slice(2).trim().split(/\s+/);
       const jsCode = msg.slice(firstLine.length);
