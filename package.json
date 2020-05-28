@@ -1,6 +1,6 @@
 {
   "name": "kcqqbot",
-  "version": "2.3.2-beta1",
+  "version": "2.3.2-beta2",
   "description": "no description",
   "main": "index.js",
   "repository": {
@@ -12,9 +12,9 @@
     "lint-html": "eslint **/*.js -f html -o ./reports/lint-results.html",
     "lint-fix": "eslint --fix **/*.js",
     "test": "node ./test/repltestserver",
-    "start": "pm2 start index.js --name kcqqbot",
+    "start": "tsc && pm2 start index.js --name kcqqbot",
     "stop": "pm2 delete kcqqbot",
-    "restart": "pm2 restart kcqqbot",
+    "restart": "tsc && pm2 restart kcqqbot",
     "build": "tsc",
     "dev": "tsc && node index"
   },

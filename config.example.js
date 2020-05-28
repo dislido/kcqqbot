@@ -9,6 +9,8 @@ const Tuling = require('./dist/modules/tuling');
 const KanBirthday = require('./dist/modules/kan-birthday');
 const Misc = require('./dist/modules/misc');
 const Admin = require('./dist/modules/admin');
+const GroupBackup = require('./dist/modules/group-backup');
+const ReceiveGroupRequest = require('./dist/modules/receive-group-request');
 
 const MsgTail = require('./dist/plugins/msg-tail');
 const ModuleCommand = require('./dist/plugins/module-command');
@@ -29,8 +31,10 @@ const config = {
       ],
     }),
     new KanBirthday({}),
+    new GroupBackup(),
     new Misc(),
     new Tuling({ apikey: '1234567890abcdef' }),
+    new ReceiveGroupRequest(),
   ],
   plugins: [
     // new MsgTail('\n from CQNode'),
