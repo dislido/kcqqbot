@@ -1,4 +1,11 @@
 import * as CQNode from '@dislido/cqnode';
+import fs from 'fs';
+import path from 'path';
+
+let packageInf: any = {};
+try {
+  packageInf = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')).toString());
+} catch {}
 
 export default module.exports = class Help extends CQNode.Module {
   constructor() {
@@ -14,7 +21,9 @@ export default module.exports = class Help extends CQNode.Module {
     if (!atme) return false;
     const modules = this.cqnode.modules;
     if (['-help', 'help', '帮助'].includes(msg)) {
-      return resp.reply(`-help / help / 帮助 // 显示此帮助信息
+      return resp.reply(`
+当前版本：${packageInf.version || 'unknown'}
+-help / help / 帮助 // 显示此帮助信息
 -module // 显示已加载的模块
 -help 模块名 // 显示模块详细用法`);
     }

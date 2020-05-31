@@ -4,7 +4,7 @@ export default module.exports = class ChatHistory extends CQNode.Module {
   record: {
     [group: number]: string[];
   };
-  constructor(public maxLength = 20, public imgPath: string = '') {
+  constructor(public maxLength = 20, public useImgUrl = false) {
     super( {
       name: '聊天记录',
       description: '保存最近的聊天记录',
@@ -40,10 +40,14 @@ export default module.exports = class ChatHistory extends CQNode.Module {
       this.record[data.groupId] = [];
     }
     const reclist = this.record[data.groupId];
-    reclist.push(
-      `${data.username || data.userId}: ${data.msg}`.replace(/\[CQ:image,.*\]/g,
-      (cqcode) => this.getImageUrl(cqcode)),
-    );
+    if (this.useImgUrl) {
+      reclist.push(
+        `${data.username || data.userId}: ${data.msg}`.replace(/\[CQ:image,.*\]/g,
+        (cqcode) => this.getImageUrl(cqcode)),
+      );
+    } else {
+      reclist.push(`${data.username || data.userId}: ${data.msg}`);
+    }
     if (reclist.length > this.maxLength) {
       reclist.shift();
     }
