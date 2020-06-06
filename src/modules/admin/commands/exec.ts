@@ -7,10 +7,6 @@ import { Command } from '../admin-command';
 const exec = util.promisify(childProcess.exec);
 const TIME_OUT = 60000;
 
-function resolveWrapLine(str: string) {
-  return str.replace(/(\\r)?(\\n)/g, '\n');
-}
-
 const decode = (hexStr: string) => {
   const arr = [...hexStr].reduce((obj, curr) => {
     obj.next = !obj.next;
@@ -23,7 +19,7 @@ const decode = (hexStr: string) => {
   }, { arr: [] as string[][], next: false })
   .arr
   .map(it => parseInt(it.join(''), 16));
-  return resolveWrapLine(iconv.decode(Buffer.from(arr), 'GBK'));
+  return iconv.decode(Buffer.from(arr), 'GBK');
 };
 
 export default {
@@ -32,12 +28,15 @@ export default {
     let err = '';
     try {
       const timeout = setTimeout(() => { err += '执行超时\n'; }, TIME_OUT);
+      const startTime = Date.now();
       const result = await exec(cmd, { timeout: TIME_OUT, encoding: 'hex' });
+      const endTime = Date.now();
       clearTimeout(timeout);
-      this.cqnode.api.sendMsg(msgData.messageType, id, `ok: ${JSON.stringify({
-        stdout: decode(result.stdout),
-        stderr: decode(result.stderr),
-      }, null, 2)}`);
+      this.cqnode.api.sendMsg(msgData.messageType, id, `执行完毕，耗时${(endTime - startTime) / 1000}秒:
+stdout: ${decode(result.stdout)}
+------
+stderr: ${decode(result.stderr)}
+`);
     } catch (e) {
       this.cqnode.api.sendMsg(msgData.messageType, id, `result: ${err}\nerrcode:${e.code}\ncmd:${e.cmd}\nstdout:${decode(e.stdout)}\nstderr:${decode(e.stderr)}`);
     }
