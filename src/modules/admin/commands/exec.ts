@@ -5,6 +5,11 @@ import iconv from 'iconv-lite';
 import { Command } from '../admin-command';
 
 const exec = util.promisify(childProcess.exec);
+const TIME_OUT = 60000;
+
+function resolveWrapLine(str: string) {
+  return str.replace(/(\\r)?(\\n)/g, '\n');
+}
 
 const decode = (hexStr: string) => {
   const arr = [...hexStr].reduce((obj, curr) => {
@@ -18,10 +23,8 @@ const decode = (hexStr: string) => {
   }, { arr: [] as string[][], next: false })
   .arr
   .map(it => parseInt(it.join(''), 16));
-  return iconv.decode(Buffer.from(arr), 'GBK');
+  return resolveWrapLine(iconv.decode(Buffer.from(arr), 'GBK'));
 };
-
-const TIME_OUT = 60000;
 
 export default {
   async exec(this: Module, cmd: string, { msgData, resp }) {

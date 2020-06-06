@@ -1,6 +1,6 @@
 {
   "name": "kcqqbot",
-  "version": "2.3.5-beta2",
+  "version": "2.3.5-beta3",
   "description": "no description",
   "main": "index.js",
   "repository": {
@@ -17,7 +17,7 @@
     "restart": "tsc && pm2 restart kcqqbot",
     "build": "tsc",
     "dev": "tsc && node index",
-    "hotupdate": "git checkout .&&git pull&&npm i&&tsc"
+    "hotupdate": "git checkout .&&git pull&&npm i&&tsc&&echo Done. Restart to apply updates"
   },
   "author": "dislido",
   "license": "UNLICENSED",
