@@ -1,6 +1,6 @@
 {
   "name": "kcqqbot",
-  "version": "2.3.5-beta3",
+  "version": "2.3.6-beta0",
   "description": "no description",
   "main": "index.js",
   "repository": {
@@ -17,7 +17,7 @@
     "restart": "tsc && pm2 restart kcqqbot",
     "build": "tsc",
     "dev": "tsc && node index",
-    "hotupdate": "git checkout .&&git pull&&npm i&&tsc&&echo Done. Restart to apply updates"
+    "hotupdate": "git checkout .&&git pull&&npm i&&tsc&&echo 更新完成，请重启以应用更新"
   },
   "author": "dislido",
   "license": "UNLICENSED",
@@ -40,7 +40,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/preset-env": "^7.4.3",
-    "@dislido/cqnode": "^2.3.5",
+    "@dislido/cqnode": "^2.3.6",
     "iconv-lite": "^0.4.24",
     "log4js": "^3.0.4",
     "moment": "^2.22.2",
