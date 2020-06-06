@@ -17,7 +17,7 @@
     "restart": "tsc && pm2 restart kcqqbot",
     "build": "tsc",
     "dev": "tsc && node index",
-    "hotupdate": "git checkout .&&git pull&&npm i&&tsc&&echo 更新完毕，重启后将应用更新"
+    "hotupdate": "git checkout .&&git pull&&npm i&&tsc"
   },
   "author": "dislido",
   "license": "UNLICENSED",
