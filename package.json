@@ -1,6 +1,6 @@
 {
   "name": "kcqqbot",
-  "version": "2.3.4-beta0",
+  "version": "2.3.4-beta1",
   "description": "no description",
   "main": "index.js",
   "repository": {
@@ -16,7 +16,8 @@
     "stop": "pm2 delete kcqqbot",
     "restart": "tsc && pm2 restart kcqqbot",
     "build": "tsc",
-    "dev": "tsc && node index"
+    "dev": "tsc && node index",
+    "hotupdate": "git pull&&npm i&&start npm run restart"
   },
   "author": "dislido",
   "license": "UNLICENSED",
