@@ -1,10 +1,8 @@
-import { Command } from "../admin-command";
-import { Module } from "@dislido/cqnode";
-import CQNode = require("@dislido/cqnode");
-
-const util = require('util');
-const childProcess = require('child_process');
-const iconv = require('iconv-lite');
+import util from 'util';
+import childProcess from 'child_process';
+import CQNode, { Module } from '@dislido/cqnode';
+import iconv from 'iconv-lite';
+import { Command } from '../admin-command';
 
 const exec = util.promisify(childProcess.exec);
 
@@ -23,22 +21,22 @@ const decode = (hexStr: string) => {
   return iconv.decode(Buffer.from(arr), 'GBK');
 };
 
-const TIME_OUT = 10000;
+const TIME_OUT = 60000;
 
 export default {
   async exec(this: Module, cmd: string, { msgData, resp }) {
     const id = CQNode.util.eventType.isGroupMessage(msgData) ? msgData.groupId : msgData.userId;
+    let err = '';
     try {
-      let output = '';
-      const timeout = setTimeout(() => { output += '执行超时\n'; }, TIME_OUT);
+      const timeout = setTimeout(() => { err += '执行超时\n'; }, TIME_OUT);
       const result = await exec(cmd, { timeout: TIME_OUT, encoding: 'hex' });
       clearTimeout(timeout);
-      this.cqnode.api.sendMsg(msgData.messageType, id, `${output}ok: ${JSON.stringify({
+      this.cqnode.api.sendMsg(msgData.messageType, id, `ok: ${JSON.stringify({
         stdout: decode(result.stdout),
         stderr: decode(result.stderr),
       }, null, 2)}`);
     } catch (e) {
-      this.cqnode.api.sendMsg(msgData.messageType, id, `err: code:${e.code}\ncmd:${e.cmd}\nstdout:${decode(e.stdout)}\nstderr:${decode(e.stderr)}`);
+      this.cqnode.api.sendMsg(msgData.messageType, id, `result: ${err}\nerrcode:${e.code}\ncmd:${e.cmd}\nstdout:${decode(e.stdout)}\nstderr:${decode(e.stderr)}`);
     }
   },
   auth: 100,
