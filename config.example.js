@@ -13,7 +13,7 @@ const GroupBackup = require('./dist/modules/group-backup');
 const ReceiveGroupRequest = require('./dist/modules/receive-group-request');
 
 const MsgTail = require('./dist/plugins/msg-tail');
-const ModuleCommand = require('./dist/plugins/module-command');
+const BlockUser = require('./dist/plugins/block-user');
 
 const config = {
   admin: [1145141919],
@@ -38,7 +38,7 @@ const config = {
   ],
   plugins: [
     // new MsgTail('\n from CQNode'),
-	  // new ModuleCommand(),
+    // new BlockUser(),
   ],
   prompt: true,
 };
