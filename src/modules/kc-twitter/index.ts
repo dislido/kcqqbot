@@ -38,7 +38,7 @@ module.exports = class KCTwitter extends CQNode.Module {
   }
 
   async onRun() {
-    const fpath = this.getFilepath();
+    const fpath = await this.getFilepath();
     const imgPath = path.resolve(fpath, 'img');
     if (!fs.existsSync(imgPath)) {
       fs.mkdirSync(imgPath);

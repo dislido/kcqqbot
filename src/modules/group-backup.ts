@@ -33,7 +33,7 @@ export default module.exports = class GroupBackup extends CQNode.Module {
   async backup(groupId: number) {
     const list = await this.cqnode.api.getGroupMemberList(groupId);
     const fname = `${groupId}-${Date.now()}.json`;
-    fs.writeFileSync(path.resolve(this.getFilepath(), `${groupId}-${Date.now()}.json`), JSON.stringify(list, null, 2));
+    fs.writeFileSync(path.resolve(await this.getFilepath(), `${groupId}-${Date.now()}.json`), JSON.stringify(list, null, 2));
     return fname;
   }
 
@@ -42,7 +42,7 @@ export default module.exports = class GroupBackup extends CQNode.Module {
   }
 
   async recycle(groupId: number, filename: string) {
-    const filepath = path.resolve(this.getFilepath(), filename);
+    const filepath = path.resolve(await this.getFilepath(), filename);
     if (!fs.existsSync(filepath)) {
       return '备份文件不存在，请确认文件名正确（群号-备份时间戳.json）';
     }

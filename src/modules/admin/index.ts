@@ -50,10 +50,10 @@ class Admin extends CQNode.Module {
     return this.requestAdmin(msgData, resp);
   }
 
-  requestAdmin(msgData: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
+  async requestAdmin(msgData: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!msgData.msg.startsWith(this.prompt)) return false;
     const cmd = msgData.msg.substring(this.prompt.length).trim();
-    this.dispatchCmd(cmd, msgData, resp);
+    await this.dispatchCmd(cmd, msgData, resp);
     return true;
   }
 
@@ -63,10 +63,10 @@ class Admin extends CQNode.Module {
    * @param msgData 
    * @param resp 
    */
-  dispatchCmd(cmd: string, msgData: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
+  async dispatchCmd(cmd: string, msgData: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     const cmdName = cmd.split(' ', 1)[0];
     const cmdStr = cmd.substring(cmdName.length).trim();
-    const userAuth = this.getUserAuth(msgData.userId, isGroupMessage(msgData) ? msgData.groupId : undefined);
+    const userAuth = await this.getUserAuth(msgData.userId, isGroupMessage(msgData) ? msgData.groupId : undefined);
     if (!this.commands[cmdName]) {
       resp.reply(`无此命令, 使用${this.prompt}listcmd命令查看所有可用命令`);
       return;
@@ -75,35 +75,35 @@ class Admin extends CQNode.Module {
       resp.reply(`权限不足(${userAuth} - ${this.commands[cmdName].auth}), 使用${this.prompt}listcmd命令查看所有可用命令`);
       return;
     }
-    this.commands[cmdName].exec.call(this, cmdStr, { msgData, resp, cqnode: this.cqnode });
+    await this.commands[cmdName].exec.call(this, cmdStr, { msgData, resp, cqnode: this.cqnode });
   }
   /**
    * 获取用户权限
    * @param qqid 用户qq号
    * @param group 群号
    */
-  getUserAuth(qqid: number, group?: number) {
+  async getUserAuth(qqid: number, group?: number) {
     if (this.authData.admin.includes(qqid)) return 100;
     if (!group) return 0;
     if (!this.authData[group]) {
       this.authData[group] = {};
-      this.saveUserAuth();
+      await this.saveUserAuth();
       return 0;
     }
     return this.authData[group][qqid] || 0;
   }
 
-  setUserAuth(qqid: number, auth: number, group: number) {
+  async setUserAuth(qqid: number, auth: number, group: number) {
     if (!this.authData[group]) this.authData[group] = {};
     this.authData[group][qqid] = auth;
-    this.saveUserAuth();
+    await this.saveUserAuth();
   }
 
   /**
    * 保存用户权限信息文件
    */
-  saveUserAuth() {
-    this.filepath = this.getFilepath();
+  async saveUserAuth() {
+    this.filepath = await this.getFilepath();
     const authDataPath = path.resolve(this.filepath, 'auth.json');
     fs.writeFileSync(authDataPath, JSON.stringify(this.authData, null, 2));
   }
@@ -111,8 +111,8 @@ class Admin extends CQNode.Module {
   /**
    * 加载用户权限信息文件
    */
-  loadUserAuth() {
-    this.filepath = this.getFilepath();
+  async loadUserAuth() {
+    this.filepath = await this.getFilepath();
     const authDataPath = path.resolve(this.filepath, 'auth.json');
     const admin = this.cqnode.config.admin;
     if (fs.existsSync(authDataPath)) {
@@ -122,7 +122,7 @@ class Admin extends CQNode.Module {
       this.authData = {
         admin,
       };
-      this.saveUserAuth();
+      await this.saveUserAuth();
     }
   }
 };
