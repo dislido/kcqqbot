@@ -42,7 +42,7 @@ export default module.exports = class Help extends CQNode.Module {
       let ret = '已加载的模块';
       modulesList.forEach((e) => {
         const mod = modules[e.entry].module;
-        ret += `\n${mod.inf.nammod} ${mod.inf.description}`;
+        ret += `\n${mod.inf.name} ${mod.inf.description}`;
       });
       return resp.reply(ret);
     }
