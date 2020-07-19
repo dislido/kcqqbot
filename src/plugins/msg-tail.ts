@@ -17,4 +17,4 @@ const MsgTail = new Plugin.Factory()
     this.tail = tail;
   });
 
-export default module.exports = MsgTail;
+export = MsgTail;

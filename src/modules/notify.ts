@@ -9,7 +9,7 @@ function afterSecond(sec: number | string) {
   return new Date((+sec * 1000) + Date.now());
 }
 
-export default module.exports = class Notify extends CQNode.Module {
+export  = class Notify extends CQNode.Module {
   notifySet: Set<schedule.Job> = new Set();
   constructor() {
     super({
@@ -40,8 +40,7 @@ export default module.exports = class Notify extends CQNode.Module {
     const str = regret[2];
     this.addNotify(time, () => this.cqnode.api.sendGroupMsg(groupId, `${CQCode('at', { qq: userId })}设置的提醒：
   ${str}`));
-    this.cqnode.api.sendGroupMsg(groupId, `${CQCode('at', { qq: userId })}提醒设置完毕`);
-    return true;
+    return resp.reply('提醒设置完毕');
   }
   byDate({ msg, userId, groupId }: { msg: string, userId: number, groupId: number }, resp: CQNode.CQResponse.GroupMessage) {
     const regret = /^(.*)时提醒\s(.*)/.exec(msg);
@@ -49,13 +48,11 @@ export default module.exports = class Notify extends CQNode.Module {
     const [, time, str] = regret;
     const totime = new Date(time);
     if (totime.toString() === 'Invalid Date') {
-      this.cqnode.api.sendGroupMsg(groupId, `${CQCode('at', { qq: userId })}日期格式错误`);
-      return true;
+      return resp.reply('日期格式错误');
     }
     this.addNotify(totime, () => this.cqnode.api.sendGroupMsg(groupId, `${CQCode('at', { qq: userId })}设置的提醒：
   ${str}`));
-    this.cqnode.api.sendGroupMsg(groupId, `${CQCode('at', { qq: userId })}提醒设置完毕`);
-    return true;
+    return resp.reply('提醒设置完毕');
   }
   addNotify(time: Date, task: () => any) {
     if (!(time instanceof Date)) return;

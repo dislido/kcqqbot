@@ -14,7 +14,7 @@ interface BirthdayData {
 }
 const birthdayData = bd as BirthdayData[];
 
-export default module.exports = class KanBirthday extends CQNode.Module {
+export  = class KanBirthday extends CQNode.Module {
   notifyHour: number;
   notifyMinute: number;
   scheduleJob?: any;

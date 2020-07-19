@@ -1,6 +1,6 @@
 {
   "name": "kcqqbot",
-  "version": "3.0.0-alpha1",
+  "version": "3.0.0-alpha3",
   "description": "no description",
   "main": "index.js",
   "repository": {
@@ -40,7 +40,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/preset-env": "^7.4.3",
-    "@dislido/cqnode": "^3.0.0-beta0",
+    "@dislido/cqnode": "^3.0.0-beta3",
     "iconv-lite": "^0.4.24",
     "log4js": "^3.0.4",
     "moment": "^2.22.2",

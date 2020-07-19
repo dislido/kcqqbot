@@ -19,7 +19,7 @@ function isGroupMessage(msgData: CQNode.CQEvent.Message): msgData is CQNode.CQEv
   if (msgData.messageType === 'group') return true;
   return false;
 }
-class Admin extends CQNode.Module {
+export = class Admin extends CQNode.Module {
   commands: {
     [cmdName: string]: Command;
   };
@@ -114,7 +114,7 @@ class Admin extends CQNode.Module {
   async loadUserAuth() {
     this.filepath = await this.getFilepath();
     const authDataPath = path.resolve(this.filepath, 'auth.json');
-    const admin = this.cqnode.config.admin;
+    const admin = this.cqnode.config.get().admin;
     if (fs.existsSync(authDataPath)) {
       this.authData = JSON.parse(fs.readFileSync(authDataPath).toString());
       this.authData.admin = admin;
@@ -126,16 +126,3 @@ class Admin extends CQNode.Module {
     }
   }
 };
-
-module.exports = Admin;
-export default Admin;
-
-/*
-command(cmdStr, { msgData, resp, CQNode })
-
-auth: {
-  admin: 100,
-  groupAdmin: 50,
-  normal: 0,
-}
- */

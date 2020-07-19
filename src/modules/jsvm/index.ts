@@ -3,7 +3,7 @@ import * as babel from '@babel/core';
 import * as CQNode from '@dislido/cqnode';
 import babelConfig from './babel-config';
 
-export default module.exports = class JSVM extends CQNode.Module {
+export  = class JSVM extends CQNode.Module {
   context: {
     global?: any;
     console: any;
@@ -53,7 +53,8 @@ export default module.exports = class JSVM extends CQNode.Module {
     }
     return false;
   }
-  runCode(js: string, params: string[] = []) {
+  // todo params
+  runCode(js: string, _params: string[] = []) {
     let err;
     let result = '';
     let extra = '';

@@ -2,7 +2,7 @@ import * as http from 'http';
 import * as querystring from 'querystring';
 import * as CQNode from '@dislido/cqnode';
 
-export default module.exports = class Tuling extends CQNode.Module {
+export  = class Tuling extends CQNode.Module {
   constructor(public apikey: string) {
     super({
       name: '图灵机器人',

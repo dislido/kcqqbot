@@ -1,6 +1,6 @@
 import * as CQNode from '@dislido/cqnode';
 
-export default module.exports = class Misc extends CQNode.Module {
+export  = class Misc extends CQNode.Module {
   constructor() {
     super({
       name: '杂项功能',

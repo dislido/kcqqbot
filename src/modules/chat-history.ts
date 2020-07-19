@@ -1,6 +1,6 @@
 import * as CQNode from '@dislido/cqnode';
 
-export default module.exports = class ChatHistory extends CQNode.Module {
+export  = class ChatHistory extends CQNode.Module {
   record: {
     [group: number]: string[];
   };

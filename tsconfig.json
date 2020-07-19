@@ -4,14 +4,17 @@
     "module": "commonjs",
     "target": "ES2017",
     "allowJs": true,
+    "esModuleInterop": true,
     "newLine": "lf",
     "moduleResolution": "Node",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "esModuleInterop": true,
     "resolveJsonModule": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": [
     "src/**/*",

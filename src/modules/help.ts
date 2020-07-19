@@ -7,7 +7,7 @@ try {
   packageInf = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')).toString());
 } catch {}
 
-export default module.exports = class Help extends CQNode.Module {
+export  = class Help extends CQNode.Module {
   constructor() {
     super({
       name: '帮助',
@@ -19,7 +19,7 @@ export default module.exports = class Help extends CQNode.Module {
 
   onMessage({ atme, msg }: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!atme) return false;
-    const modulesList = this.cqnode.config.modules;
+    const modulesList = this.cqnode.config.get().modules;
     const modules = this.cqnode.modules;
     if (['-help', 'help', '帮助'].includes(msg)) {
       return resp.reply(`

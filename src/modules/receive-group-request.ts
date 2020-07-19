@@ -1,6 +1,6 @@
 import { Module } from '@dislido/cqnode';
 
-export default module.exports = class Repeat extends Module {
+export  = class Repeat extends Module {
   constructor() {
     super({
       name: '接受加群邀请',

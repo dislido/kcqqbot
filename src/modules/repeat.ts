@@ -1,6 +1,6 @@
 import { Module } from '@dislido/cqnode';
 
-export default module.exports = class Repeat extends Module {
+export  = class Repeat extends Module {
   record: {
     [fromGroup: string]: {
       list: {

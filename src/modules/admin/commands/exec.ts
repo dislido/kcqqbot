@@ -23,7 +23,7 @@ const decode = (hexStr: string) => {
 };
 
 export default {
-  async exec(this: Module, cmd: string, { msgData, resp }) {
+  async exec(this: Module, cmd: string, { msgData }) {
     const id = CQNode.util.eventType.isGroupMessage(msgData) ? msgData.groupId : msgData.userId;
     let err = '';
     try {

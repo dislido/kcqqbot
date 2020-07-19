@@ -4,7 +4,7 @@ import * as path from 'path';
 
 const sleep = (time: number) => new Promise(res => setTimeout(res, time));
 
-export default module.exports = class GroupBackup extends CQNode.Module {
+export  = class GroupBackup extends CQNode.Module {
   constructor() {
     super({
       name: '群备份',
@@ -35,10 +35,6 @@ export default module.exports = class GroupBackup extends CQNode.Module {
     const fname = `${groupId}-${Date.now()}.json`;
     fs.writeFileSync(path.resolve(await this.getFilepath(), `${groupId}-${Date.now()}.json`), JSON.stringify(list, null, 2));
     return fname;
-  }
-
-  onRun() {
-    this.backup(685955293);
   }
 
   async recycle(groupId: number, filename: string) {

@@ -3,12 +3,13 @@ import CQNode, { Module, CQAPI } from "@dislido/cqnode";
 
 export default {
   exec(this: Module, js: string, { resp, msgData }) {
-    // todo: console
+    // @ts-ignore
     const console = {
       ...global.console,
     };
     // todo: proxyAPI
     const _API = this.cqnode.api;
+    // @ts-ignore
     const API = new Proxy({}, {
       get: (_, handler) => {
         if (handler === 'group') {
