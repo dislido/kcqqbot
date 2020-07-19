@@ -14,8 +14,10 @@ export  = class Tuling extends CQNode.Module {
 
   async onMessage(data: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
     if (!data.atme) return false;
+    const msg = querystring.escape(data.msg);
+    if (msg.length > 8000) return resp.reply('消息太长了，图灵机器人无法处理');
     const reply: string = await new Promise(resolve => http.get(
-      `http://www.tuling123.com/openapi/api?key=${this.apikey}&info=${querystring.escape(data.msg)}`,
+      `http://www.tuling123.com/openapi/api?key=${this.apikey}&info=${msg}`,
       (res) => {
         res
         .setEncoding('utf8')
