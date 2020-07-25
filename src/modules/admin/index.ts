@@ -64,7 +64,7 @@ export = class Admin extends CQNode.Module {
    * @param resp 
    */
   async dispatchCmd(cmd: string, msgData: CQNode.CQEvent.Message, resp: CQNode.CQResponse.Message) {
-    const cmdName = cmd.split(' ', 1)[0];
+    const cmdName = cmd.split(/\s/, 1)[0];
     const cmdStr = cmd.substring(cmdName.length).trim();
     const userAuth = await this.getUserAuth(msgData.userId, isGroupMessage(msgData) ? msgData.groupId : undefined);
     if (!this.commands[cmdName]) {
