@@ -42,7 +42,7 @@
     "@babel/preset-env": "^7.4.3",
     "@dislido/cqnode": "^3.0.0-beta3",
     "iconv-lite": "^0.4.24",
-    "log4js": "^3.0.4",
+    "log4js": "^6.4.0",
     "moment": "^2.22.2",
     "node-schedule": "^1.3.0",
     "pm2": "^4.4.0"
