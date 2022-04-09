@@ -43,7 +43,7 @@
     "@dislido/cqnode": "^3.0.0-beta3",
     "iconv-lite": "^0.4.24",
     "log4js": "^3.0.4",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "node-schedule": "^1.3.0",
     "pm2": "^4.4.0"
   },
