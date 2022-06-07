@@ -12,7 +12,7 @@
     "lint-html": "eslint **/*.js -f html -o ./reports/lint-results.html",
     "lint-fix": "eslint --fix **/*.js",
     "test": "node ./test/repltestserver",
-    "start": "tsc && pm2 start index.js --name kcqqbot",
+    "start": "tsc && pm2 start dist/index.js --name kcqqbot",
     "stop": "pm2 delete kcqqbot",
     "restart": "tsc && pm2 restart kcqqbot",
     "build": "tsc",
