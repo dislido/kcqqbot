@@ -1,6 +1,5 @@
 import util from 'util';
 import childProcess from 'child_process';
-import CQNode, { Module } from '@dislido/cqnode';
 import iconv from 'iconv-lite';
 import { Command } from '../admin-command';
 
@@ -17,14 +16,13 @@ const decode = (hexStr: string) => {
     }
     return obj;
   }, { arr: [] as string[][], next: false })
-  .arr
-  .map(it => parseInt(it.join(''), 16));
+    .arr
+    .map(it => parseInt(it.join(''), 16));
   return iconv.decode(Buffer.from(arr), 'GBK');
 };
 
 export default {
-  async exec(this: Module, cmd: string, { msgData }) {
-    const id = CQNode.util.eventType.isGroupMessage(msgData) ? msgData.groupId : msgData.userId;
+  async exec(cmd: string, { ctx }) {
     let err = '';
     try {
       const timeout = setTimeout(() => { err += '执行超时\n'; }, TIME_OUT);
@@ -32,15 +30,15 @@ export default {
       const result = await exec(cmd, { timeout: TIME_OUT, encoding: 'hex' });
       const endTime = Date.now();
       clearTimeout(timeout);
-      this.cqnode.api.sendMsg(msgData.messageType, id, `执行完毕，耗时${(endTime - startTime) / 1000}秒:
+      ctx.reply(`执行完毕，耗时${(endTime - startTime) / 1000}秒:
 stdout: ${decode(result.stdout)}
 ------
 stderr: ${decode(result.stderr)}
 `);
     } catch (e) {
-      this.cqnode.api.sendMsg(msgData.messageType, id, `result: ${err}\nerrcode:${e.code}\ncmd:${e.cmd}\nstdout:${decode(e.stdout)}\nstderr:${decode(e.stderr)}`);
+      ctx.reply(`result: ${err}\nerrcode:${e.code}\ncmd:${e.cmd}\nstdout:${decode(e.stdout)}\nstderr:${decode(e.stderr)}`);
     }
   },
   auth: 100,
-  description: '执行command命令: ~$exec (命令行内容)',
+  description: '执行cmd命令: exec (命令行内容)',
 } as Command;

@@ -1,33 +1,14 @@
-import { Command } from "../admin-command";
-import CQNode, { Module, CQAPI } from "@dislido/cqnode";
+import { Command } from '../admin-command';
 
 export default {
-  exec(this: Module, js: string, { resp, msgData }) {
-    // @ts-ignore
+  exec(js: string, { ctx }) {
     const console = {
       ...global.console,
     };
-    // todo: proxyAPI
-    const _API = this.cqnode.api;
-    // @ts-ignore
-    const API = new Proxy({}, {
-      get: (_, handler) => {
-        if (handler === 'group') {
-          return new Proxy(_API, {
-            get: (_, handler) => {
-              const api = _API[handler as keyof CQAPI];
-              if (api) {
-                return api.bind(this, (<CQNode.CQEvent.GroupMessage>msgData).groupId);
-              }
-              return api;
-            },
-          });
-        }
-        return _API[handler as keyof CQAPI];
-      },
-    });
-    const result = eval(js); // eslint-disable-line no-eval
-    resp.reply(`done.\n执行结果：${result}`);
+    const fn = new Function('console', 'ctx', js);
+
+    const result = fn(console, ctx);
+    ctx.reply(`done.\n执行结果：${result}`);
   },
   auth: 100,
   description: '运行js代码: ~$eval (代码内容)',
