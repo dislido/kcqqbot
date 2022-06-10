@@ -21,13 +21,6 @@ interface TulingResponse {
   >;
 }
 const Tuling: FunctionModule = (mod, apiKey) => {
-  mod.setMeta({
-    name: '图灵机器人',
-    description: '聊天功能',
-    help: '由图灵机器人API提供',
-    packageName: '@dislido/cqnode-module-tuling',
-  });
-
   mod.on(CQEventType.message, async ctx => {
     if (!ctx.atme) return false;
     const msg = ctx.event.message
@@ -75,6 +68,13 @@ const Tuling: FunctionModule = (mod, apiKey) => {
     }).write(postData));
     return ctx.reply(reply, true);
   }, { atme: true });
+
+  return {
+    name: '图灵机器人',
+    description: '聊天功能',
+    help: '由图灵机器人API提供',
+    packageName: '@dislido/cqnode-module-tuling',
+  };
 };
 
 export default Tuling;

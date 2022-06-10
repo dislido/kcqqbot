@@ -2,20 +2,6 @@ import vm from 'vm';
 import { CQEventType, FunctionModule } from '@dislido/cqnode';
 
 const JSVM: FunctionModule = mod => {
-  mod.setMeta({
-    name: 'js虚拟机',
-    description: '运行js代码',
-    help: `
-------
-js
-code
-------
-code: js代码
-在console.log中输出的信息会添加到回复中
-代码运行时间不能超过1s`,
-    packageName: '@dislido/cqnode-module-jsvm',
-  });
-
   const context: any = {
     console: null,
     save2ctx(obj: any) {
@@ -73,6 +59,20 @@ code: js代码
     }
     return false;
   });
+
+  return {
+    name: 'js虚拟机',
+    description: '运行js代码',
+    help: `
+------
+js
+code
+------
+code: js代码
+在console.log中输出的信息会添加到回复中
+代码运行时间不能超过1s`,
+    packageName: '@dislido/cqnode-module-jsvm',
+  };
 };
 
 export default JSVM;

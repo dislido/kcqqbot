@@ -25,8 +25,9 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@dislido/cqnode": "^3.0.0-dev.10",
+    "@dislido/cqnode": "^3.0.0-dev.12",
     "@types/node-cron": "^3.0.1",
+    "axios": "^0.27.2",
     "iconv-lite": "^0.4.24",
     "log4js": "^6.5.2",
     "moment": "^2.22.2",

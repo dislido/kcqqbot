@@ -33,13 +33,6 @@ const Repeat: FunctionModule = (mod, config: RepeatConfig = {}) => {
   let limit = Math.max(config.limit || 2, 2);
   if (limit > listLength) limit = listLength;
 
-  mod.setMeta({
-    name: '复读',
-    description: '人类的本质',
-    help: `在${listLength}条消息内，有${limit}个不同的人重复同一句话时发动复读`,
-    packageName: '@dislido/cqnode-module-repeat',
-  });
-
   mod.on(CQEventType.messageGroup, ctx => {
     if (!records[ctx.event.group_id]) {
       records[ctx.event.group_id] = {
@@ -69,6 +62,13 @@ const Repeat: FunctionModule = (mod, config: RepeatConfig = {}) => {
     }
     return false;
   }, { atme: false });
+
+  return {
+    name: '复读',
+    description: '人类的本质',
+    help: `在${listLength}条消息内，有${limit}个不同的人重复同一句话时发动复读`,
+    packageName: '@dislido/cqnode-module-repeat',
+  };
 };
 
 export default Repeat;

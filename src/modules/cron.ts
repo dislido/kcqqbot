@@ -4,20 +4,6 @@ import nodeCron, { ScheduledTask } from 'node-cron';
 const Cron: FunctionModule = mod => {
   let cid = 1;
   const cronMap = new Map<number, ScheduledTask>();
-  mod.setMeta({
-    name: '定时任务',
-    description: '设置定时任务',
-    help: `cron time [-js]
-(task)
-------
-time:定时规则，格式参考https://baike.baidu.com/item/cron
-task:任务内容，默认为发送消息，启用-js选项时为执行代码
-======
-cron off id
-------
-关闭定时任务`,
-    packageName: '@dislido/cqnode-module-cron',
-  });
 
   mod.on(CQEventType.message, ctx => {
     const msg = ctx.textMessage;
@@ -61,6 +47,21 @@ cron off id
     cid++;
     return true;
   });
+
+  return {
+    name: '定时任务',
+    description: '设置定时任务',
+    help: `cron time [-js]
+(task)
+------
+time:定时规则，格式参考https://baike.baidu.com/item/cron
+task:任务内容，默认为发送消息，启用-js选项时为执行代码
+======
+cron off id
+------
+关闭定时任务`,
+    packageName: '@dislido/cqnode-module-cron',
+  };
 };
 
 export default Cron;

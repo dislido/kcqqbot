@@ -18,15 +18,8 @@ function isGroupMessage(msgData: CQEvent<CQEventType.message>): msgData is CQEve
 }
 
 const Admin: FunctionModule = async (mod, { prompt = '~$' } = {}) => {
-  mod.setMeta({
-    name: '管理员命令',
-    help: `使用${prompt}listcmd查看可用命令`,
-    description: '命令行控制台功能',
-    packageName: '@dislido/cqnode-module-admin',
-  });
-
   /** @todo getStorage#defaultData */
-  const authData: AuthData = await mod.getStorage('auth') || { admin: mod.cqnode.config.admin || [] };
+  const authData: AuthData = await mod.getStorage('auth', null) || { admin: mod.cqnode.config.admin || [] };
 
   const saveUserAuth = () => {
     mod.setStorage(authData, 'auth');
@@ -65,6 +58,13 @@ const Admin: FunctionModule = async (mod, { prompt = '~$' } = {}) => {
     await dispatchCmd(cmd, ctx);
     return true;
   });
+
+  return {
+    name: '管理员命令',
+    help: `使用${prompt}listcmd查看可用命令`,
+    description: '命令行控制台功能',
+    packageName: '@dislido/cqnode-module-admin',
+  };
 };
 
 export default Admin;

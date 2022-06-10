@@ -1,14 +1,6 @@
 import { CQEventType, FunctionModule } from '@dislido/cqnode';
 
 const Help: FunctionModule = mod => {
-  /** @todo dev.11使用返回值 */
-  mod.setMeta({
-    name: '帮助',
-    description: '帮助信息',
-    help: '-help',
-    packageName: '@dislido/cqnode-module-help',
-  });
-
   mod.on(CQEventType.message, ctx => {
     const modulesList = ctx.cqnode.modules;
     const { textMessage } = ctx;
@@ -38,6 +30,13 @@ const Help: FunctionModule = mod => {
     }
     return false;
   });
+
+  return {
+    name: '帮助',
+    description: '帮助信息',
+    help: '-help',
+    packageName: '@dislido/cqnode-module-help',
+  };
 };
 
 export default Help;
