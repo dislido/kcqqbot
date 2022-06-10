@@ -1,6 +1,5 @@
 import { CQEventType, FunctionModule, util } from '@dislido/cqnode';
 import axios from 'axios';
-import type { Sendable } from 'oicq';
 
 enum R18Option {
   Safe = 0,
@@ -40,45 +39,52 @@ interface SetuData {
 }
 
 const Setu: FunctionModule = mod => {
+  mod.setMeta({
+    packageName: '@dislido/cqnode-module-setu',
+    name: '随机色图',
+    description: '获取随机色图 - https://api.lolicon.app/#/setu',
+    help: '色图 - 获取色图； xx色图 - 获取xx tag下的色图，支持&和｜来取且或',
+  });
+
   mod.on(CQEventType.message, async ctx => {
     const regExec = /(?<tagQuery>.*)色图/.exec(ctx.textMessage);
     if (!regExec) return false;
     const { tagQuery = '' } = regExec.groups!;
-    const tag = tagQuery.split('&').map(it => it.split('|').slice(0, 10)).slice(0, 3);
+    const tag = tagQuery ? tagQuery.split('&').map(it => it.split('|').slice(0, 10)).slice(0, 3) : [];
 
     const params: SetuParams = {
-      tag,
       size: 'regular',
     };
-
+    if (tag.length) {
+      params.tag = tag;
+    }
+    const reqUrl = `https://api.lolicon.app/setu/v2?${new URLSearchParams(params as Record<string, string>)}`;
     try {
-      const resp = await axios.post<SetuData>('https://api.lolicon.app/setu/v2', params, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        timeout: 5000,
-      });
+      const resp = await axios.get<SetuData>(reqUrl, { timeout: 10000 });
       const { data, error } = resp.data;
-      const replyList: Sendable = [];
       if (!data?.length) throw error;
-      data.forEach(it => {
-        replyList.push(`(${it.pid})${it.title} by ${it.author}`);
-        replyList.push(util.segment.image(it.urls.regular));
-      });
-      ctx.reply(replyList);
+      const imgList = data.map(it => ({
+        text: `(${it.pid})${it.title} by ${it.author}`,
+        img: it.urls.regular.replace('i.pixiv.cat', 'i.pixiv.re'),
+        buf: null,
+      }));
+      await Promise.all(imgList.map(it => axios.get(it.img, {
+        responseType: 'arraybuffer',
+        timeout: 15000,
+      }).then(imgRes => { it.buf = imgRes.data; }).catch(() => true)));
+      if (ctx.event.message_type === 'group') {
+        const availableImg = imgList.filter(it => it.buf);
+        await ctx.event.group.uploadImages(availableImg.map(it => util.segment.image(it.buf!)));
+        ctx.reply(availableImg.map(it => [it.text, util.segment.image(it.buf!)]).flat());
+        return true;
+      }
+      ctx.reply('ok');
       return true;
     } catch (e) {
       ctx.reply(`获取失败：${e.message}`);
       return true;
     }
   });
-
-  return {
-    packageName: '@dislido/cqnode-module-setu',
-    name: '随机色图',
-    description: '获取随机色图 - https://api.lolicon.app/#/setu',
-    help: '色图 - 获取色图； xx色图 - 获取xx tag下的色图，支持&和｜来取且或',
-  };
 };
 
 export default Setu;

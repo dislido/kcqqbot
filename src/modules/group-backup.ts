@@ -4,6 +4,13 @@ import type { MemberInfo } from 'oicq';
 const sleep = (time: number) => new Promise(res => setTimeout(res, time));
 
 const GroupBackup: FunctionModule = mod => {
+  mod.setMeta({
+    name: '群备份',
+    description: '备份群成员列表，恢复群成员头衔和名片',
+    help: '-groupbackup 备份本群成员\n-groupbackup backupName 使用备份文件还原本群成员头衔和名片(需要群主权限)',
+    packageName: '@dislido/cqnode-module-group-backup',
+  });
+
   const backup = async (ctx: CQNodeEventContext<CQEventType.messageGroup>) => {
     const listMap = await ctx.event.group.getMemberMap();
     const list = Array.from(listMap.values());
@@ -49,13 +56,6 @@ const GroupBackup: FunctionModule = mod => {
     const filename = await backup(ctx);
     return ctx.reply(`已备份群成员列表 -> ${filename}`);
   });
-
-  return {
-    name: '群备份',
-    description: '备份群成员列表，恢复群成员头衔和名片',
-    help: '-groupbackup 备份本群成员\n-groupbackup backupName 使用备份文件还原本群成员头衔和名片(需要群主权限)',
-    packageName: '@dislido/cqnode-module-group-backup',
-  };
 };
 
 export default GroupBackup;

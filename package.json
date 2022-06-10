@@ -16,7 +16,7 @@
     "stop": "pm2 delete kcqqbot",
     "restart": "tsc && pm2 restart kcqqbot",
     "build": "tsc",
-    "dev": "tsc && node index",
+    "dev": "tsc && node dist/index",
     "hotupdate": "git checkout .&&git pull&&npm i&&tsc&&echo 更新完成，请重启以应用更新"
   },
   "author": "dislido",
@@ -25,7 +25,7 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@dislido/cqnode": "^3.0.0-dev.12",
+    "@dislido/cqnode": "^3.0.0-dev.13",
     "@types/node-cron": "^3.0.1",
     "axios": "^0.27.2",
     "iconv-lite": "^0.4.24",
