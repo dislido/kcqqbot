@@ -12,13 +12,11 @@ interface TulingResponse {
     actionName: string;
     parameters?: Record<string, string>;
   },
-  results: Array<
-    {
-      groupType: number;
-      resultType: string;
-      values: Record<string, string>;
-    }
-  >;
+  results: Array<{
+    groupType: number;
+    resultType: string;
+    values: Record<string, string>;
+  }>;
 }
 const Tuling: FunctionModule = (mod, apiKey) => {
   mod.setMeta({
