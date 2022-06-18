@@ -62,7 +62,7 @@ const Setu: FunctionModule = mod => {
     try {
       const resp = await axios.get<SetuData>(reqUrl, { timeout: 10000 });
       const { data, error } = resp.data;
-      if (!data?.length) throw error;
+      if (!data?.length) throw new Error(error || '未找到相关色图');
       const imgList = data.map(it => ({
         text: `(${it.pid})${it.title} by ${it.author}`,
         img: it.urls.regular.replace('i.pixiv.cat', 'i.pixiv.re'),
