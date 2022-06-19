@@ -1,6 +1,6 @@
 {
   "name": "kcqqbot",
-  "version": "3.0.0-dev.1",
+  "version": "3.0.0",
   "description": "no description",
   "main": "dist/index.js",
   "repository": {
@@ -25,7 +25,7 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@dislido/cqnode": "^3.0.0-dev.17",
+    "@dislido/cqnode": "^3.0.0",
     "@types/node-cron": "^3.0.1",
     "axios": "^0.27.2",
     "iconv-lite": "^0.4.24",
