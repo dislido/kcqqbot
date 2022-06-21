@@ -70,6 +70,7 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
         ctx.websocket.send(JSON.stringify({
           msgType: 'resp', id: data.id, code: 0, data: result,
         }));
+        return;
       }
       ctx.websocket.send(JSON.stringify({
         msgType: 'resp', id: data.id, code: 404, msg: 'msgType not found',
