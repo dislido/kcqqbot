@@ -55,10 +55,10 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
         ctx.websocket.send(JSON.stringify({
           msgType: 'resp', id: data.id, code: 403, msg: 'unauthed',
         }));
+        return;
       }
       if (data.type === 'callApi') {
         const api = plg.cqnode.connect.api[data.apiName as keyof OICQAPI] as (...params: any) => any;
-
         if (!api) {
           ctx.websocket.send(JSON.stringify({
             msgType: 'resp', id: data.id, code: 404, msg: 'api notfound',
