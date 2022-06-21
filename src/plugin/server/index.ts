@@ -17,12 +17,12 @@ interface CQNodeServerConfig {
 const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
   plg.setMeta({
     name: 'cqnode服务器',
-    description: 'websocket服务器',
+    description: '机器人服务器',
     packageName: '@dislido/cqnode-plugin-server',
   });
   const app = koaWebsocket(new Koa(), {});
 
-  app.ws.use(koaRoute.all('/', async ctx => {
+  app.ws.use(koaRoute.all('/ws', async ctx => {
     const close = () => {};
     let authed = !config.password;
 
