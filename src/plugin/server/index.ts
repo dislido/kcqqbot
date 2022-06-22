@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   CQEvent,
   CQEventType,
@@ -7,6 +8,7 @@ import {
 import { OICQAPI } from '@dislido/cqnode/lib/connector-oicq/proxy-oicq-api';
 import Koa from 'koa';
 import koaRoute from 'koa-route';
+import koaBody from 'koa-body';
 import koaWebsocket from 'koa-websocket';
 import { pickGroupMessageEvent } from './pick-event';
 
@@ -21,6 +23,13 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
     packageName: '@dislido/cqnode-plugin-server',
   });
   const app = koaWebsocket(new Koa(), {});
+  app.use(koaBody({
+    multipart: true,
+    formidable: {
+      uploadDir: path.join(__dirname, 'uploads'),
+      keepExtensions: true,
+    },
+  }));
 
   app.ws.use(koaRoute.all('/ws', async ctx => {
     const close = () => {};
@@ -47,7 +56,12 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
           return plgCtx;
         });
         ctx.websocket.send(JSON.stringify({
-          msgType: 'resp', id: data.id, code: 0, msg: 'success',
+          msgType: 'resp',
+          id: data.id,
+          code: 0,
+          data: {
+            uid: plg.cqnode.connect.client.uin,
+          },
         }));
         return;
       }
@@ -79,6 +93,13 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
     ctx.websocket.on('close', () => {
       close();
     });
+  }));
+
+  app.use(koaRoute.post('/api/uploadImage', ctx => {
+    const { file } = ctx.request.files || {};
+    console.log(file);
+    ctx.status = 200;
+    ctx.body = 'ok';
   }));
 
   app.listen(config.port || 8016);
