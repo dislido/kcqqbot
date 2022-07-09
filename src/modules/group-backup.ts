@@ -20,7 +20,7 @@ const GroupBackup: FunctionModule = mod => {
   };
 
   const recycle = async (ctx: CQNodeEventContext<CQEventType.messageGroup>, storageKey: string) => {
-    const backData = await mod.getStorage<MemberInfo[]>(storageKey, null);
+    const backData = await mod.getStorage(storageKey, null as MemberInfo[] | null);
     if (!backData) {
       return '备份不存在，请确认备份名正确（群号-备份时间戳）';
     }
