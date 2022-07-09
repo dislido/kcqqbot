@@ -92,8 +92,13 @@ const Commander: FunctionModule = async mod => {
     const cmd = parseCommand<AddCmdOptions>(textMessage);
 
     if (cmd._[0] === 'commander') {
-      if (!mod.cqnode.config.admin?.includes(sender.user_id)) return false;
       const type = cmd._[1];
+      if (type === 'list') {
+        const result = listCmd(groupId);
+        ctx.event.reply(result);
+        return true;
+      }
+      if (!mod.cqnode.config.admin?.includes(sender.user_id)) return false;
       if (type === 'add') {
         addCmd(
           {
@@ -106,11 +111,6 @@ const Commander: FunctionModule = async mod => {
         );
         saveCmd();
         ctx.event.reply('已添加自定义命令');
-        return true;
-      }
-      if (type === 'list') {
-        const result = listCmd(groupId);
-        ctx.event.reply(result);
         return true;
       }
 
