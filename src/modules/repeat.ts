@@ -41,6 +41,7 @@ const Repeat: FunctionModule = (mod, config: RepeatConfig = {}) => {
   });
 
   mod.on(CQEventType.messageGroup, ctx => {
+    if (ctx.atme) return false;
     if (!records[ctx.event.group_id]) {
       records[ctx.event.group_id] = {
         list: [],
