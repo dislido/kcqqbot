@@ -73,8 +73,8 @@ const Commander: FunctionModule = async mod => {
   });
 
   const listCmd = (group?: number) => {
-    const globalCmds = Object.values(commands.global).map(it => `${it.name} ${it.description}`).join('\n');
-    const groupCmds = group && commands[group] ? Object.values(commands[group]).map(it => `${it.name} ${it.description}`).join('\n') : '';
+    const globalCmds = Object.values(commands.global).map(it => `${it.name} ${it.description || ''}`).join('\n');
+    const groupCmds = group && commands[group] ? Object.values(commands[group]).map(it => `${it.name} ${it.description || ''}`).join('\n') : '';
     return `全局命令：\n${globalCmds}${groupCmds && `本群命令：\n${groupCmds}`}`;
   };
 
