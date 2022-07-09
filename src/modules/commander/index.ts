@@ -87,12 +87,12 @@ const Commander: FunctionModule = async mod => {
 
   mod.on(CQEventType.message, async ctx => {
     const { message, sender } = ctx.event;
-    if (!mod.cqnode.config.admin?.includes(sender.user_id)) return false;
     const textMessage = message.map(it => it.type === 'text' ? it.text : '').join('').trim();
     const groupId = util.assertEventType(ctx.event, CQEventType.messageGroup) ? ctx.event.group_id : undefined;
     const cmd = parseCommand<AddCmdOptions>(textMessage);
 
     if (cmd._[0] === 'commander') {
+      if (!mod.cqnode.config.admin?.includes(sender.user_id)) return false;
       const type = cmd._[1];
       if (type === 'add') {
         addCmd(
