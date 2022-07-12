@@ -124,8 +124,8 @@ const Commander: FunctionModule = async mod => {
     const targetCmd = (groupId ? commands[groupId] : {})[cmd._[0]] || commands.global[cmd._[0]];
     if (targetCmd) {
       try {
-        const result = targetCmd.fn?.(ctx, cmd, mod.api) || `${cmd._[0]} 执行完毕`;
-        ctx.reply(`${result}`);
+        const result = targetCmd.fn?.(ctx, cmd, mod.api);
+        if (result) ctx.reply(`${result}`);
       } catch (e) {
         ctx.reply(`Error: ${e.message || e}`);
       }
