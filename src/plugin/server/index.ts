@@ -75,7 +75,7 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
           code: 0,
           data: {
             uid: plg.cqnode.connect.client.uin,
-            oldEvent: evCache,
+            evHistory: evCache,
           },
         }));
         return;
