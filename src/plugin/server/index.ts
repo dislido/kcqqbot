@@ -1,7 +1,6 @@
+import EventEmitter from 'events';
 import path from 'path';
 import {
-  CQEvent,
-  CQEventType,
   CQNodeHook,
   FunctionPlugin,
 } from '@dislido/cqnode';
@@ -10,13 +9,15 @@ import Koa from 'koa';
 import koaRoute from 'koa-route';
 import koaBody from 'koa-body';
 import koaWebsocket from 'koa-websocket';
-import { pickGroupMessageEvent } from './pick-event';
+import pickEvent from './pick-event';
 
 interface CQNodeServerConfig {
   port?: number;
   password?: string;
+  evCacheLength?: number;
 }
 const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
+  const { port = 8016, evCacheLength = 100 } = config;
   plg.setMeta({
     name: 'cqnode服务器',
     description: '机器人服务器',
@@ -31,8 +32,26 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
     },
   }));
 
+  const evCache: any[] = [];
+  const pushEvCache = (data: any) => {
+    evCache.push(data);
+    if (evCache.length > evCacheLength) evCache.shift();
+  };
+
+  const ee = new EventEmitter();
+  plg.on(CQNodeHook.beforeEventProcess, plgCtx => {
+    const data = {
+      msgType: 'event',
+      event: pickEvent(plgCtx.event),
+      eventType: plgCtx.eventType,
+    };
+    ee.emit('event', data);
+    pushEvCache(data);
+    return plgCtx;
+  });
+
   app.ws.use(koaRoute.all('/ws', async ctx => {
-    const close = () => {};
+    let close = () => {};
     let authed = !config.password;
 
     ctx.websocket.on('message', async (msg: Buffer) => {
@@ -45,22 +64,18 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
           return;
         }
         authed = true;
-        plg.on(CQNodeHook.beforeEventProcess, plgCtx => {
-          if (plgCtx.eventType === CQEventType.messageGroup) {
-            ctx.websocket.send(JSON.stringify({
-              msgType: 'event',
-              event: pickGroupMessageEvent(plgCtx.event as CQEvent<CQEventType.messageGroup>),
-              eventType: plgCtx.eventType,
-            }));
-          }
-          return plgCtx;
-        });
+
+        const listener = (ev: any) => ctx.websocket.send(JSON.stringify(ev));
+        ee.on('event', listener);
+        close = () => ee.off('event', listener);
+
         ctx.websocket.send(JSON.stringify({
           msgType: 'resp',
           id: data.id,
           code: 0,
           data: {
             uid: plg.cqnode.connect.client.uin,
+            oldEvent: evCache,
           },
         }));
         return;
@@ -102,7 +117,7 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
     ctx.body = 'ok';
   }));
 
-  app.listen(config.port || 8016);
+  app.listen(port);
 };
 
 export default Server;

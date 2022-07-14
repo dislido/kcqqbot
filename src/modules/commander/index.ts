@@ -12,6 +12,8 @@ export interface AddCmdOptions {
   help?: string;
   /** 是否全局生效 */
   global?: boolean;
+  /** 不需要at */
+  noat?: boolean;
 }
 
 interface CommandData {
@@ -19,6 +21,7 @@ interface CommandData {
   body: string;
   description?: string;
   help?: string;
+  noat?: boolean;
   fn?: CommandFunction;
 }
 
@@ -47,7 +50,7 @@ const Commander: FunctionModule = async mod => {
     const target = group ? commands[group] : commands.global;
 
     const {
-      help, description, body, name,
+      help, description, body, name, noat,
     } = data;
 
     if (target[name]) {
@@ -61,6 +64,7 @@ const Commander: FunctionModule = async mod => {
       fn: cmdFn,
       help,
       description,
+      noat,
     };
 
     target[name] = compiled;
@@ -91,7 +95,7 @@ const Commander: FunctionModule = async mod => {
     const groupId = util.assertEventType(ctx.event, CQEventType.messageGroup) ? ctx.event.group_id : undefined;
     const cmd = parseCommand<AddCmdOptions>(textMessage);
 
-    if (cmd._[0] === 'commander') {
+    if (cmd._[0] === 'commander' && ctx.atme) {
       const type = cmd._[1];
       if (type === 'list') {
         const result = listCmd(groupId);
@@ -104,8 +108,7 @@ const Commander: FunctionModule = async mod => {
           {
             name: cmd._[2],
             body: cmd._[3],
-            description: cmd.description,
-            help: cmd.help,
+            ...cmd,
           },
           cmd.global ? undefined : groupId,
         );
@@ -123,6 +126,7 @@ const Commander: FunctionModule = async mod => {
 
     const targetCmd = (groupId ? commands[groupId] : {})[cmd._[0]] || commands.global[cmd._[0]];
     if (targetCmd) {
+      if (!ctx.atme && !targetCmd.noat) return false;
       try {
         const result = targetCmd.fn?.(ctx, cmd, mod.api);
         if (result) ctx.reply(`${result}`);
@@ -133,7 +137,7 @@ const Commander: FunctionModule = async mod => {
     }
 
     return false;
-  });
+  }, { atme: false });
 };
 
 export default Commander;

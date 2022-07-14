@@ -1,4 +1,4 @@
-import { CQEvent, CQEventType } from '@dislido/cqnode';
+import { CQEvent, CQEventType, util } from '@dislido/cqnode';
 
 const groupProps = [
   'info',
@@ -39,4 +39,12 @@ export function pickGroupMessageEvent(event: CQEvent<CQEventType.messageGroup>) 
       avatar: event.member.getAvatarUrl(100),
     } as any),
   };
+}
+
+/** @todo @WIP 处理事件中的getter属性 */
+export default function pickEvent(event: CQEvent) {
+  if (util.assertEventType(event, CQEventType.messageGroup)) {
+    return pickGroupMessageEvent(event);
+  }
+  return event;
 }
