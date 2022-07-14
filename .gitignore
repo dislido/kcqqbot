@@ -1,6 +1,10 @@
 node_modules
 config.js
 dist
+data
+src/config.ts
 /.*
+!/.eslintignore
 !/.gitignore
 !/.npmignore
+!/.eslintrc.js
