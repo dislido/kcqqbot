@@ -1,4 +1,6 @@
-import { CQEvent, CQEventType, util } from '@dislido/cqnode';
+import {
+  CQEvent, CQEventType, util, oicq,
+} from '@dislido/cqnode';
 
 const groupProps = [
   'info',
@@ -23,28 +25,26 @@ const memberProps = [
   'user_id',
 ] as const;
 
-export function pickGroupMessageEvent(event: CQEvent<CQEventType.messageGroup>) {
-  return {
-    ...event,
-    group: groupProps.reduce((g, it) => {
-      g[it] = event.group[it];
-      return g;
-    }, {
-      avatar: event.group.getAvatarUrl(100),
-    } as any),
-    member: memberProps.reduce((mem, it) => {
-      mem[it] = event.member[it];
-      return mem;
-    }, {
-      avatar: event.member.getAvatarUrl(100),
-    } as any),
-  };
-}
-
 /** @todo @WIP 处理事件中的getter属性 */
 export default function pickEvent(event: CQEvent) {
-  if (util.assertEventType(event, CQEventType.messageGroup)) {
-    return pickGroupMessageEvent(event);
+  if (!event) return event;
+  const e: CQEvent = { ...event };
+  if (util.assertEventType(e, CQEventType.messageGroup)) {
+    e.member = memberProps.reduce((mem, it) => {
+      mem[it] = e.member[it];
+      return mem;
+    }, {
+      avatar: e.member.getAvatarUrl(100),
+    } as any);
   }
-  return event;
+  if ('group' in e && e.group instanceof oicq.Group) {
+    e.group = groupProps.reduce((g, it) => {
+      g[it] = e.group[it];
+      return g;
+    }, {
+      avatar: e.group.getAvatarUrl(100),
+    } as any);
+  }
+
+  return e;
 }
