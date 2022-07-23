@@ -45,6 +45,14 @@ export default function pickEvent(event: CQEvent) {
       avatar: e.group.getAvatarUrl(100),
     } as any);
   }
+  if (util.assertEventType(e, CQEventType.noticeGroupPoke)) {
+    const operator = e.group.pickMember(e.operator_id);
+    const target = e.group.pickMember(e.target_id);
+    Object.assign(e, {
+      operatorName: operator.card || operator.info?.nickname || operator.uid,
+      targetName: target.card || target.info?.nickname || target.uid,
+    });
+  }
 
   return e;
 }
