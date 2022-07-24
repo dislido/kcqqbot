@@ -47,6 +47,15 @@ export default function pickEvent(event: CQEvent) {
     });
   }
 
+  if (util.assertEventType(e, CQEventType.noticeGroupBan)) {
+    const operator = e.group.pickMember(e.operator_id);
+    const target = e.group.pickMember(e.user_id);
+    Object.assign(e, {
+      operatorName: operator.card || operator.info?.nickname || `${operator.uid}`,
+      targetName: target.card || target.info?.nickname || `${target.uid}`,
+    });
+  }
+
   if ('group' in e && e.group instanceof oicq.Group) {
     e.group = groupProps.reduce((g, it) => {
       g[it] = e.group[it];
