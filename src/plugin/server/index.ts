@@ -15,6 +15,7 @@ interface CQNodeServerConfig {
   port?: number;
   password?: string;
   evCacheLength?: number;
+  onStart?(): void;
 }
 const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
   const { port = 8016, evCacheLength = 100 } = config;
@@ -117,7 +118,10 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
     ctx.body = 'ok';
   }));
 
-  app.listen(port);
+  plg.on(CQNodeHook.afterInit, data => {
+    app.listen(port, config.onStart);
+    return data;
+  });
 };
 
 export default Server;
