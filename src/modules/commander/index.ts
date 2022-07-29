@@ -124,7 +124,7 @@ const Commander: FunctionModule = async mod => {
       }
     }
 
-    const targetCmd = (groupId ? commands[groupId] : {})[cmd._[0]] || commands.global[cmd._[0]];
+    const targetCmd = (groupId ? commands[groupId] : {})?.[cmd._[0]] || commands.global[cmd._[0]];
     if (targetCmd) {
       if (!ctx.atme && !targetCmd.noat) return false;
       try {

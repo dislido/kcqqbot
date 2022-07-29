@@ -1,8 +1,9 @@
 import EventEmitter from 'events';
-import path from 'path';
+import fs from 'fs';
 import {
   CQNodeHook,
   FunctionPlugin,
+  util,
 } from '@dislido/cqnode';
 import { OICQAPI } from '@dislido/cqnode/lib/connector-oicq/proxy-oicq-api';
 import Koa from 'koa';
@@ -24,11 +25,12 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
     description: '机器人服务器',
     packageName: '@dislido/cqnode-plugin-server',
   });
+  plg.cqnode.workpathManager.ensurePath(plg.storagePath, null);
   const app = koaWebsocket(new Koa(), {});
   app.use(koaBody({
     multipart: true,
     formidable: {
-      uploadDir: path.join(__dirname, 'uploads'),
+      uploadDir: plg.storagePath,
       keepExtensions: true,
     },
   }));
@@ -111,11 +113,32 @@ const Server: FunctionPlugin = (plg, config: CQNodeServerConfig = {}) => {
     });
   }));
 
-  app.use(koaRoute.post('/api/uploadImage', ctx => {
-    const { file } = ctx.request.files || {};
-    console.log(file);
-    ctx.status = 200;
-    ctx.body = 'ok';
+  app.use(koaRoute.post('/api/uploadImage', async ctx => {
+    const file = ctx.request.files?.file;
+    if (!file || Array.isArray(file)) {
+      ctx.status = 400;
+      ctx.body = 'no file';
+      return;
+    }
+
+    const { target } = ctx.request.body;
+    const [targetType, targetId] = target.split(':');
+    const fileBuf = await fs.promises.readFile(file.filepath);
+    const imgElem = util.segment.image(fileBuf);
+
+    fs.promises.rm(file.filepath);
+
+    if (targetType === 'group') {
+      const group = plg.cqnode.connect.client.pickGroup(+targetId);
+      await group.uploadImages([imgElem]);
+      await group.sendMsg(imgElem);
+      ctx.status = 200;
+      ctx.body = 'ok';
+      return;
+    }
+
+    ctx.status = 400;
+    ctx.body = 'no target';
   }));
 
   plg.on(CQNodeHook.afterInit, data => {
