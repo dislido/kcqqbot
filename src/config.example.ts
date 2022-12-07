@@ -8,6 +8,7 @@ import Admin from './modules/admin';
 import Cron from './modules/cron';
 import Setu from './modules/setu';
 import GroupBackup from './modules/group-backup';
+import DogAdmin from './modules/dog-admin';
 import ReceiveGroupRequest from './modules/receive-group-request';
 import Server from './plugin/server';
 
@@ -19,6 +20,7 @@ const config: CQNodeConfig = {
   modules: [
     Admin,
     Help,
+    DogAdmin,
     JSVM,
     GroupBackup,
     Cron,
