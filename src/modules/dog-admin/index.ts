@@ -48,6 +48,7 @@ const Cron: FunctionModule = mod => {
 
     if (ctx.event.member.is_admin) senderLevel = 10;
     if (ctx.event.member.is_owner) senderLevel = 100;
+    if (ctx.cqnode.config.admin?.includes(ctx.event.member.uid)) senderLevel = Infinity;
     const cmdDef = cmdMap[methodName];
 
     if (!cmdDef) {
