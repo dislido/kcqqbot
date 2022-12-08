@@ -32,7 +32,7 @@ export const cmdMap: Record<string, DogAdminCmd> = {
     level: 0,
     async fn(ctx, card = '') {
       const targetCard = `${card}`;
-      await ctx.event.member.setTitle(targetCard);
+      await ctx.event.member.setTitle(targetCard, 0);
     },
   },
 };
