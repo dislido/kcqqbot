@@ -43,7 +43,7 @@ export const cmdMap: Record<string, DogAdminCmd> = {
   },
   改群名: {
     desc: '"改群名 $1" $-新群名 ',
-    level: 10000,
+    level: 1,
     async fn(ctx, name = '') {
       const targetName = `${name}`;
       if (!name) {
