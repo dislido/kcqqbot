@@ -13,7 +13,10 @@ export const cmdMap: Record<string, DogAdminCmd> = {
       const targetQq = +qq;
       const targetTime = Math.min(+time || 1, 1440);
 
-      if (!targetQq) ctx.event.reply('命令格式错误');
+      if (!targetQq) {
+        ctx.event.reply('命令格式错误');
+        return;
+      }
       await ctx.event.group.muteMember(targetQq, targetTime);
     },
     level: 1,
@@ -22,7 +25,10 @@ export const cmdMap: Record<string, DogAdminCmd> = {
     desc: '解除禁言， "解口 $1" $1-禁言对象',
     async fn(ctx, qq) {
       const targetQq = +qq;
-      if (!targetQq) ctx.event.reply('命令格式错误');
+      if (!targetQq) {
+        ctx.event.reply('命令格式错误');
+        return;
+      }
       await ctx.event.group.muteMember(targetQq, 0);
     },
     level: 1,
@@ -35,4 +41,23 @@ export const cmdMap: Record<string, DogAdminCmd> = {
       await ctx.event.member.setTitle(targetCard);
     },
   },
+  改群名: {
+    desc: '"改群名 $1" $-新群名 ',
+    level: 10000,
+    async fn(ctx, name = '') {
+      const targetName = `${name}`;
+      if (!name) {
+        ctx.event.reply('命令格式错误');
+        return;
+      }
+      await ctx.event.group.setName(targetName);
+    },
+  },
+  // test: {
+  //   desc: '测试用',
+  //   level: 10000,
+  //   async fn(ctx) {
+  //     await ctx.event.group.setName('test');
+  //   },
+  // },
 };
