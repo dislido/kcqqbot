@@ -33,14 +33,14 @@ export const cmdMap: Record<string, DogAdminCmd> = {
     },
     level: 1,
   },
-  领头衔: {
-    desc: '设置自己的头衔 "领头衔 $1" $1-头衔',
-    level: 0,
-    async fn(ctx, card = '') {
-      const targetCard = `${card}`;
-      await ctx.event.member.setTitle(targetCard);
-    },
-  },
+  // 领头衔: {
+  //   desc: '设置自己的头衔 "领头衔 $1" $1-头衔',
+  //   level: 0,
+  //   async fn(ctx, card = '') {
+  //     const targetCard = `${card}`;
+  //     await ctx.event.member.setTitle(targetCard);
+  //   },
+  // },
   改群名: {
     desc: '"改群名 $1" $-新群名 ',
     level: 1,
