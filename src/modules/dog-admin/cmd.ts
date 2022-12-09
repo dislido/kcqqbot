@@ -80,8 +80,8 @@ export const cmdMap: Record<string, DogAdminCmd> = {
   改群头像: {
     desc: '"改群头像 $1" $1-图片',
     level: 0,
-    async fn(ctx, ex) {
-      const targetFile = ex?.image.file;
+    async fn(ctx, ...args) {
+      const targetFile = args.at(-1).image?.file;
       if (!targetFile) {
         ctx.event.reply('命令格式错误');
         return;
@@ -92,8 +92,8 @@ export const cmdMap: Record<string, DogAdminCmd> = {
   撤回: {
     desc: '"撤回" 回复要撤回的消息，去掉at',
     level: 0,
-    async fn(ctx, ex) {
-      const targetReply = ex?.reply;
+    async fn(ctx, ...args) {
+      const targetReply = args.at(-1).reply;
       if (!targetReply) {
         ctx.event.reply('命令格式错误');
         return;
