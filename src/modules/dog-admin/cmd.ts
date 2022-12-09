@@ -1,4 +1,5 @@
 import { CQEventType, CQNodeEventContext } from '@dislido/cqnode';
+import { genDmMessageId } from "oicq/lib/message/message.js";
 
 export interface DogAdminCmd {
   desc: string;
@@ -92,13 +93,14 @@ export const cmdMap: Record<string, DogAdminCmd> = {
   撤回: {
     desc: '"撤回" 回复要撤回的消息，去掉at',
     level: 0,
-    async fn(ctx, ...args) {
-      const targetReply = args.at(-1).reply;
+    async fn(ctx) {
+      const targetReply = ctx.event.source
       if (!targetReply) {
-        ctx.event.reply('命令格式错误' + JSON.stringify(ctx.event.message));
+        ctx.event.reply('命令格式错误');
         return;
       }
-      await ctx.event.group.recallMsg(targetReply as string);
+      const msgId = genDmMessageId(targetReply.user_id, targetReply.seq, targetReply.rand, targetReply.time, 1)
+      await ctx.event.group.recallMsg(msgId);
     },
   },
   // test: {
