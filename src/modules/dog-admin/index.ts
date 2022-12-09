@@ -53,7 +53,7 @@ const Cron: FunctionModule = mod => {
     const cmdDef = cmdMap[methodName];
 
     if (!cmdDef) {
-      ctx.event.reply(`没有此命令 ${methodName} (${cmd._.join(' ')})`);
+      ctx.event.reply(`没有此命令 ${methodName} (${cmd._.join(' ')}) {${JSON.stringify(ctx.event.message)}}`);
       return true;
     }
 
