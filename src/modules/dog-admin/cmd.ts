@@ -77,6 +77,18 @@ export const cmdMap: Record<string, DogAdminCmd> = {
       await ctx.event.group.pokeMember(targetQQ);
     },
   },
+  改群头像: {
+    desc: '"改群头像 $1" $1-图片',
+    level: 0,
+    async fn(ctx, file) {
+      const targetFile = `${file}`;
+      if (!targetFile) {
+        ctx.event.reply('命令格式错误');
+        return;
+      }
+      await ctx.event.group.setAvatar(targetFile);
+    },
+  },
   // 撤回: {
   //   desc: '"戳人 $1" $1-戳人目标',
   //   level: 0,
