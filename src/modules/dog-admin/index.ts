@@ -60,7 +60,11 @@ const Cron: FunctionModule = mod => {
       ctx.event.reply(`权限不足，你的权限是${senderLevel}, 此命令需要权限${cmdDef.level} (管理员权限10，群主权限100，第一次使用可能未加载权限，重试即可)`);
       return true;
     }
-    await cmdDef.fn(ctx, ...cmd._);
+    try {
+      await cmdDef.fn(ctx, ...cmd._);
+    } catch (e) {
+      ctx.event.reply(`未知错误： ${e.message} ${(e as Error).stack}`)
+    }
 
     return true;
   });
