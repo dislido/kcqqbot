@@ -34,13 +34,14 @@ const GroupBackup: FunctionModule = mod => {
           await ctx.event.group.setCard(user.user_id, oldUser.card);
           await sleep(500);
         }
-        if (oldUser.title && oldUser.title !== user.title) {
-          await ctx.event.group.setTitle(user.user_id, oldUser.card);
-          await sleep(500);
-        }
+        // 头衔接口坏了
+        // if (oldUser.title && oldUser.title !== user.title) {
+        //   await ctx.event.group.setTitle(user.user_id, oldUser.card);
+        //   await sleep(500);
+        // }
       }
     }
-    return '群成员头衔&名片恢复完毕';
+    return '群成员名片恢复完毕';
   };
 
   mod.on(CQEventType.messageGroup, async ctx => {
