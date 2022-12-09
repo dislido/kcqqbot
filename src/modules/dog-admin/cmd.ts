@@ -9,27 +9,27 @@ export interface DogAdminCmd {
 export const cmdMap: Record<string, DogAdminCmd> = {
   口: {
     desc: '禁言， "口 $1 $2" $1-禁言对象 $2-时间:分钟,默认1分钟,1~1440',
-    async fn(ctx, qq, time) {
-      const targetQq = +qq;
+    async fn(ctx, time, ...args) {
+      const targetQQ = args.at(-1).at;
       const targetTime = Math.min(+time || 1, 1440);
 
-      if (!targetQq) {
+      if (!targetQQ) {
         ctx.event.reply('命令格式错误');
         return;
       }
-      await ctx.event.group.muteMember(targetQq, targetTime);
+      await ctx.event.group.muteMember(targetQQ, targetTime);
     },
     level: 1,
   },
   解口: {
     desc: '解除禁言， "解口 $1" $1-禁言对象',
-    async fn(ctx, qq) {
-      const targetQq = +qq;
-      if (!targetQq) {
+    async fn(ctx, ...args) {
+      const targetQQ = args.at(-1).at;
+      if (!targetQQ) {
         ctx.event.reply('命令格式错误');
         return;
       }
-      await ctx.event.group.muteMember(targetQq, 0);
+      await ctx.event.group.muteMember(targetQQ, 0);
     },
     level: 1,
   },
@@ -68,9 +68,9 @@ export const cmdMap: Record<string, DogAdminCmd> = {
   戳人: {
     desc: '"戳人 $1" $1-戳人目标',
     level: 0,
-    async fn(ctx, qq) {
-      const targetQQ = +qq;
-      if (!qq) {
+    async fn(ctx, ...args) {
+      const targetQQ = args.at(-1).at;
+      if (!targetQQ) {
         ctx.event.reply('命令格式错误');
         return;
       }

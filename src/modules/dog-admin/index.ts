@@ -1,5 +1,5 @@
 import { CQEventType, FunctionModule } from '@dislido/cqnode';
-import { ReplyElem } from 'oicq';
+import { AtElem, ReplyElem } from 'oicq';
 import { parseCommand } from '../commander/utils';
 import { cmdMap } from './cmd';
 
@@ -23,11 +23,10 @@ const Cron: FunctionModule = mod => {
     if (!msg.startsWith('狗管理')) return false;
     const commandStr = ctx.event.message.reduce((str, curr) => {
       if (curr.type === 'text') return `${str} ${curr.text} `;
-      if (curr.type === 'at') return `${str} ${curr.qq} `;
       return str;
     }, '');
     const cmd = parseCommand(commandStr);
-    const ex = {image: ctx.event.message.find(it => it.type === 'image'), reply: ctx.event.message.find((it): it is ReplyElem => it.type === 'reply')?.id}
+    const ex = {at: ctx.event.message.find((it): it is AtElem => it.type === 'at')?.qq, image: ctx.event.message.find(it => it.type === 'image'), reply: ctx.event.message.find((it): it is ReplyElem => it.type === 'reply')?.id}
 
     const segments = [...cmd._];
     segments.shift();
