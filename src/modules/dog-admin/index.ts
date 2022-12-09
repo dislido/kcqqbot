@@ -30,7 +30,6 @@ const Cron: FunctionModule = mod => {
 
     const segments = [...cmd._];
     segments.shift();
-    segments.shift();
 
     if (!segments.length) {
       ctx.event.reply(help);
