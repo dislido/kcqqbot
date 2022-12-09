@@ -1,13 +1,16 @@
 import { Command } from '../admin-command';
 
+// @ts-ignore
+const AsyncFunction = (async function(){}).__proto__.constructor
+
 export default {
-  exec(js: string, { ctx }) {
+  async exec(js: string, { ctx }) {
     const console = {
       ...global.console,
     };
-    const fn = new Function('console', 'ctx', js);
+    const fn = new AsyncFunction('console', 'ctx', 'require', js);
 
-    const result = fn(console, ctx);
+    const result = await fn(console, ctx, require);
     ctx.reply(`done.\n执行结果：${result}`);
   },
   auth: 100,
