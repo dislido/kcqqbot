@@ -1,4 +1,5 @@
 import { CQEventType, FunctionModule } from '@dislido/cqnode';
+import { ReplyElem } from 'oicq';
 import { parseCommand } from '../commander/utils';
 import { cmdMap } from './cmd';
 
@@ -23,10 +24,10 @@ const Cron: FunctionModule = mod => {
     const commandStr = ctx.event.message.reduce((str, curr) => {
       if (curr.type === 'text') return `${str} ${curr.text} `;
       if (curr.type === 'at') return `${str} ${curr.qq} `;
-      if (curr.type === 'image') return `${str} ${curr.file ?? ''} `;
       return str;
     }, '');
     const cmd = parseCommand(commandStr);
+    const ex = {image: ctx.event.message.find(it => it.type === 'image'), reply: ctx.event.message.find((it): it is ReplyElem => it.type === 'reply')?.id}
 
     const segments = cmd._;
     segments.shift();
@@ -61,7 +62,7 @@ const Cron: FunctionModule = mod => {
       return true;
     }
     try {
-      await cmdDef.fn(ctx, ...cmd._);
+      await cmdDef.fn(ctx, ...cmd._, ex);
     } catch (e) {
       ctx.event.reply(`未知错误： ${e.message} ${(e as Error).stack}`)
     }

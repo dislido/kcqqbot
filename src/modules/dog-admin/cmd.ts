@@ -1,8 +1,9 @@
 import { CQEventType, CQNodeEventContext } from '@dislido/cqnode';
+import { MessageElem } from 'oicq';
 
 export interface DogAdminCmd {
   desc: string;
-  fn: (ctx: CQNodeEventContext<CQEventType.messageGroup>, ...args: string[]) => void | Promise<void>
+  fn: (ctx: CQNodeEventContext<CQEventType.messageGroup>, ...args: any[]) => void | Promise<void>
   level: number
 }
 
@@ -80,8 +81,8 @@ export const cmdMap: Record<string, DogAdminCmd> = {
   改群头像: {
     desc: '"改群头像 $1" $1-图片',
     level: 0,
-    async fn(ctx, file) {
-      const targetFile = `${file}`;
+    async fn(ctx, ex) {
+      const targetFile = ex?.image;
       if (!targetFile) {
         ctx.event.reply('命令格式错误');
         return;
@@ -89,18 +90,18 @@ export const cmdMap: Record<string, DogAdminCmd> = {
       await ctx.event.group.setAvatar(targetFile);
     },
   },
-  // 撤回: {
-  //   desc: '"戳人 $1" $1-戳人目标',
-  //   level: 0,
-  //   async fn(ctx, qq) {
-  //     const targetQQ = +qq;
-  //     if (!qq) {
-  //       ctx.event.reply('命令格式错误');
-  //       return;
-  //     }
-  //     await ctx.event.group.recallMsg({});
-  //   },
-  // },
+  撤回: {
+    desc: '"撤回" 回复要撤回的消息，去掉at',
+    level: 0,
+    async fn(ctx, ex) {
+      const targetReply = ex?.reply;
+      if (!targetReply) {
+        ctx.event.reply('命令格式错误');
+        return;
+      }
+      await ctx.event.group.recallMsg(targetReply as string);
+    },
+  },
   // test: {
   //   desc: '测试用',
   //   level: 10000,
