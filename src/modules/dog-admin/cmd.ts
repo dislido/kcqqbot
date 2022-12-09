@@ -99,8 +99,13 @@ export const cmdMap: Record<string, DogAdminCmd> = {
         ctx.event.reply('命令格式错误');
         return;
       }
-      const msgId = genDmMessageId(targetReply.user_id, targetReply.seq, targetReply.rand, targetReply.time, 1)
-      await ctx.event.group.recallMsg(msgId);
+      const gm = await ctx.event.group.getChatHistory()
+      const msg = gm.find(it => it.seq === targetReply.seq)
+      if (!msg) {
+        ctx.event.reply('未找到指定消息，只能撤回最近20条消息')
+        return
+      }
+      await ctx.event.group.recallMsg(msg);
     },
   },
   // test: {
