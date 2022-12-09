@@ -42,7 +42,7 @@ export const cmdMap: Record<string, DogAdminCmd> = {
   //   },
   // },
   改群名: {
-    desc: '"改群名 $1" $-新群名 ',
+    desc: '"改群名 $1" $1-新群名',
     level: 1,
     async fn(ctx, name = '') {
       const targetName = `${name}`;
@@ -53,6 +53,42 @@ export const cmdMap: Record<string, DogAdminCmd> = {
       await ctx.event.group.setName(targetName);
     },
   },
+  拉人: {
+    desc: '"拉人 $1" $1-qq号',
+    level: 0,
+    async fn(ctx, qq) {
+      const targetQQ = +qq;
+      if (!qq) {
+        ctx.event.reply('命令格式错误');
+        return;
+      }
+      await ctx.event.group.invite(targetQQ);
+    },
+  },
+  戳人: {
+    desc: '"戳人 $1" $1-戳人目标',
+    level: 0,
+    async fn(ctx, qq) {
+      const targetQQ = +qq;
+      if (!qq) {
+        ctx.event.reply('命令格式错误');
+        return;
+      }
+      await ctx.event.group.pokeMember(targetQQ);
+    },
+  },
+  // 撤回: {
+  //   desc: '"戳人 $1" $1-戳人目标',
+  //   level: 0,
+  //   async fn(ctx, qq) {
+  //     const targetQQ = +qq;
+  //     if (!qq) {
+  //       ctx.event.reply('命令格式错误');
+  //       return;
+  //     }
+  //     await ctx.event.group.recallMsg({});
+  //   },
+  // },
   // test: {
   //   desc: '测试用',
   //   level: 10000,
