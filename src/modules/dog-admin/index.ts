@@ -23,7 +23,7 @@ const Cron: FunctionModule = mod => {
     const commandStr = ctx.event.message.reduce((str, curr) => {
       if (curr.type === 'text') return `${str} ${curr.text} `;
       if (curr.type === 'at') return `${str} ${curr.qq} `;
-      if (curr.type === 'image') return `${str} ${curr.url ?? ''} `;
+      if (curr.type === 'image') return `${str} ${curr.file ?? ''} `;
       return str;
     }, '');
     const cmd = parseCommand(commandStr);
