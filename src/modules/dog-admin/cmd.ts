@@ -1,5 +1,4 @@
 import { CQEventType, CQNodeEventContext } from '@dislido/cqnode';
-import { MessageElem } from 'oicq';
 
 export interface DogAdminCmd {
   desc: string;
