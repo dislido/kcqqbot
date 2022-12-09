@@ -95,7 +95,7 @@ export const cmdMap: Record<string, DogAdminCmd> = {
     async fn(ctx, ...args) {
       const targetReply = args.at(-1).reply;
       if (!targetReply) {
-        ctx.event.reply('命令格式错误');
+        ctx.event.reply('命令格式错误' + JSON.stringify(ctx.event.message));
         return;
       }
       await ctx.event.group.recallMsg(targetReply as string);
