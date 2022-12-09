@@ -29,7 +29,7 @@ const Cron: FunctionModule = mod => {
     const cmd = parseCommand(commandStr);
     const ex = {image: ctx.event.message.find(it => it.type === 'image'), reply: ctx.event.message.find((it): it is ReplyElem => it.type === 'reply')?.id}
 
-    const segments = cmd._;
+    const segments = [...cmd._];
     segments.shift();
     segments.shift();
 
@@ -53,7 +53,7 @@ const Cron: FunctionModule = mod => {
     const cmdDef = cmdMap[methodName];
 
     if (!cmdDef) {
-      ctx.event.reply('没有此命令');
+      ctx.event.reply(`没有此命令 ${methodName} (${cmd._.join(' ')})`);
       return true;
     }
 

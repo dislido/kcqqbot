@@ -81,7 +81,7 @@ export const cmdMap: Record<string, DogAdminCmd> = {
     desc: '"改群头像 $1" $1-图片',
     level: 0,
     async fn(ctx, ex) {
-      const targetFile = ex?.image;
+      const targetFile = ex?.image.file;
       if (!targetFile) {
         ctx.event.reply('命令格式错误');
         return;
