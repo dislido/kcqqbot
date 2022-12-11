@@ -20,7 +20,7 @@ backupGroup(gid: number): string | null 备份指定群 return 备份名`,
     if (!group) return null
     const memberMap = await group.getMemberMap(true);
     const memberList = Array.from(memberMap.values());
-    const storageKey = `${gid}-${new Date().toLocaleString().replaceAll(/\/|:| /g, '')}`; // YYYYMMDDHHmmss
+    const storageKey = `${gid}-${new Date().toLocaleString('zh').replaceAll(/\/|:| /g, '')}`; // YYYYMMDDHHmmss
     mod.setStorage(JSON.stringify(memberList, null, 2), storageKey);
     return storageKey;
   };
