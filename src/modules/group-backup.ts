@@ -16,7 +16,7 @@ backupGroup(gid: number): string | null 备份指定群 return 备份名`,
   });
 
   const backupGroup = async (gid: number) => {
-    const group = mod.api.pickGroup(gid)
+    const group = mod.cqnode.connect.api.pickGroup(gid)
     if (!group) return null
     const memberMap = await group.getMemberMap(true);
     const memberList = Array.from(memberMap.values());
