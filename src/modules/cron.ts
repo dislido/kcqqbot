@@ -109,7 +109,11 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
       job.start();
     });
   };
-  loadCron();
+  try {
+    loadCron();
+  } catch {
+    // noop
+  }
 
   mod.on(CQEventType.message, ctx => {
     const msg = ctx.textMessage;
