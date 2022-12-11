@@ -7,9 +7,39 @@ export interface CronExports {
   removeCron(cid: number): boolean;
 }
 
+const weekText = ['日', '一', '二', '三', '四', '五', '六']
+
+function formatCron(cronExpression: string) {
+  const list = cronExpression.replaceAll('  ', ' ').split(' ')
+  let sec: string | undefined
+  if (list.length === 6) sec = list.shift()
+  let [minute, hour, dayOfMonth, month, dayOfWeek] = list
+  if (dayOfWeek === '7') dayOfWeek = '0';
+  let result = '';
+  if (month !== '*') result += `${month}月`;
+  else if (dayOfMonth !== '*') result += '每月';
+
+  if (dayOfWeek !== '*') result += `每周${weekText[+dayOfWeek]}`;
+
+  if (dayOfMonth !== '*') result += `${dayOfMonth}日`;
+  else if (dayOfMonth === '*' && dayOfWeek === '*' && hour !== '*') result += '每天';
+
+  if (hour !== '*') result += `${hour}点`;
+  else if (minute !== '*') result += '每小时';
+
+  if (minute !== '*') result += `${minute}分`;
+  else if (sec && sec !== '*') result += '每分钟';
+
+  if (sec && sec !== '*') result += `${sec}秒`;
+  
+  return `${result}执行`
+}
+
 interface CronJob {
   job: ScheduledTask;
   description?: string;
+  cronExpression: string;
+  task: string;
 }
 
 const Cron: FunctionModule = mod => {
@@ -35,16 +65,8 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
   });
 
   const saveCron = () => {
-    mod.setStorage([...cronMap.entries()])
+    mod.setStorage([...cronMap.entries()].map(([cid, {cronExpression, task, description}]) => [cid, {cronExpression, task, description}]))
   };
-
-  const loadCron = async () => {
-    const jobs = await mod.getStorage('default', [] as Array<[number, CronJob]>)
-    jobs.forEach(([cid, job]) => {
-      cronMap.set(cid, job)
-    })
-  };
-  loadCron();
 
   const createCron = (cronExpression: string, task: string, description?: string) => {
     while(cronMap.has(cid)) cid++;
@@ -55,6 +77,8 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
     cronMap.set(cid, {
       job,
       description,
+      cronExpression,
+      task,
     });
     job.start();
     saveCron()
@@ -68,6 +92,24 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
     cronMap.delete(cid);
     return true;
   };
+
+  const loadCron = async () => {
+    const jobs = await mod.getStorage('default', [] as Array<[number, CronJob]>);
+    jobs.forEach(([cid, {cronExpression, task, description}]) => {
+      const fn = new AsyncFunction('console', 'cqnode', task);
+      const job = nodeCron.schedule(cronExpression, () => {
+        fn(console, mod.cqnode);
+      }, { timezone: 'Asia/Shanghai' });
+      cronMap.set(cid, {
+        job,
+        description,
+        cronExpression,
+        task,
+      });
+      job.start();
+    });
+  };
+  loadCron();
 
   mod.on(CQEventType.message, ctx => {
     const msg = ctx.textMessage;
@@ -90,8 +132,11 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
     }
 
     if (/cron list/.test(msg)) {
-      const result = [...cronMap.entries()].map(([cid, job]) => `${cid}: ${job.description || ''}`).join('\n')
-      ctx.reply(result);
+      const result = [...cronMap.entries()].map(([cid, job]) => `${cid}.${formatCron(job.cronExpression)}:${job.description || ''}`)
+      if (!result.length) {
+        ctx.reply('没有定时任务');
+      }
+      ctx.reply(result.join('\n'));
       return true;
     }
 
