@@ -90,6 +90,7 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
     if (!task) return false;
     task.job.stop();
     cronMap.delete(cid);
+    saveCron()
     return true;
   };
 
@@ -156,7 +157,7 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
     }
     const task = lines.join('\n');
     const taskCid = createCron(option, task, desc)
-    ctx.reply(`设置完成，定时任务id为${taskCid}，可使用cron off ${taskCid}关闭此任务`);
+    ctx.reply(`设置完成，定时任务id为${taskCid}，可使用cron off ${taskCid}关闭此任务,cron: ${option}(${formatCron(option)})`);
     return true;
   });
 
