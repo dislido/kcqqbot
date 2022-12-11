@@ -1,5 +1,6 @@
 import { CQEventType, FunctionModule } from '@dislido/cqnode';
 import nodeCron, { ScheduledTask } from 'node-cron';
+import AsyncFunction from '../utils/AsyncFunction';
 
 export interface CronExports {
   createCron(cronExpression: string, task: string): number;
@@ -47,7 +48,7 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
 
   const createCron = (cronExpression: string, task: string, description?: string) => {
     while(cronMap.has(cid)) cid++;
-    const fn = new Function('console', 'cqnode', task);
+    const fn = new AsyncFunction('console', 'cqnode', task);
     const job = nodeCron.schedule(cronExpression, () => {
       fn(console, mod.cqnode);
     }, { timezone: 'Asia/Shanghai' });

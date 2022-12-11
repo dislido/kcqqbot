@@ -1,7 +1,6 @@
+import AsyncFunction from '../../../utils/AsyncFunction';
 import { Command } from '../admin-command';
 
-// @ts-ignore
-const AsyncFunction = (async function(){}).__proto__.constructor
 
 export default {
   async exec(js: string, { ctx }) {
