@@ -7,15 +7,21 @@ const GroupBackup: FunctionModule = mod => {
   mod.setMeta({
     name: '群备份',
     description: '备份群成员列表，恢复群成员头衔和名片',
-    help: '-groupbackup 备份本群成员\n-groupbackup backupName 使用备份文件还原本群成员头衔和名片(需要群主权限)',
+    help: `-groupbackup 备份本群成员
+-groupbackup backupName 使用备份文件还原本群成员头衔和名片(需要有对应权限)
+======
+exports:
+backupGroup(gid: number): string | null 备份指定群 return 备份名`,
     packageName: '@dislido/cqnode-module-group-backup',
   });
 
-  const backup = async (ctx: CQNodeEventContext<CQEventType.messageGroup>) => {
-    const listMap = await ctx.event.group.getMemberMap();
-    const list = Array.from(listMap.values());
-    const storageKey = `${ctx.event.group_id}-${Date.now()}`;
-    mod.setStorage(JSON.stringify(list, null, 2), storageKey);
+  const backupGroup = async (gid: number) => {
+    const group = mod.api.pickGroup(gid)
+    if (!group) return null
+    const memberMap = await group.getMemberMap(true);
+    const memberList = Array.from(memberMap.values());
+    const storageKey = `${gid}-${Date.now()}`;
+    mod.setStorage(JSON.stringify(memberList, null, 2), storageKey);
     return storageKey;
   };
 
@@ -54,9 +60,15 @@ const GroupBackup: FunctionModule = mod => {
       ctx.reply(result);
       return true;
     }
-    const filename = await backup(ctx);
+    const filename = await backupGroup(ctx.event.group_id);
     return ctx.reply(`已备份群成员列表 -> ${filename}`);
   });
+  mod.setMeta({
+    packageName: '@dislido/cqnode-module-group-backup',
+    exports: {
+      backupGroup,
+    }
+  })
 };
 
 export default GroupBackup;
