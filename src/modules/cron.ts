@@ -146,8 +146,8 @@ removeCron(cid: number): boolean 移除定时任务, return 是否移除成功`,
     }
 
     const lines = msg.split('\n');
-    ctx.reply(lines.join('|\n'))
     const cmd = lines.shift()!;
+    ctx.reply([...cmd].map(it => it.codePointAt(0)).join(','))
     // todo fix cron
     let option = cmd.slice(5);
     let desc = '';
