@@ -14,7 +14,10 @@ function parseQpicUrl(url: string) {
 type repeatableMsgType = keyof typeof parseRepeatMsg;
 const parseRepeatMsg = {
   text: (msg: TextElem) => msg.text,
-  image: (msg: ImageElem) => msg.url ? util.segment.image(parseQpicUrl(msg.url)) : '',
+  image: (msg: ImageElem) => msg.url ? {
+    file: util.segment.image(parseQpicUrl(msg.url)),
+    asface: msg.asface,
+  } : '',
   at: (msg: AtElem) => util.segment.at(msg.qq),
 };
 
